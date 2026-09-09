@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تقدمي | كورس المونتاج بالذكاء الاصطناعي</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052cc;
+            --primary-accent: #38bdf8;
+            --primary-light: #e0f2fe;
+            --bg-gradient: linear-gradient(180deg, #f8fbff 0%, #f0f7ff 100%);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --border-light: #bae6fd;
+            --success: #10b981;
+            --success-light: #dcfce7;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow-card: 0 10px 30px rgba(0, 102, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body.dark-mode {
+            --bg-gradient: linear-gradient(180deg, #0a0f1e 0%, #0d1526 100%);
+            --card-bg: #111827;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #1e3a5f;
+            --border-light: #1e3a5f;
+            --primary-light: #0c2340;
+            --success-light: #052e1c;
+        }
+
+        /* Header */
+        .dash-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        body.dark-mode .dash-header { background: rgba(10, 15, 30, 0.92); }
+
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo-box {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 0.95rem;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .back-link {
+            text-decoration: none; color: var(--text-muted); font-weight: 700; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .back-link:hover { color: var(--primary); }
+
+        .theme-toggle-btn {
+            background: none; border: 2px solid var(--border-color); border-radius: 50%;
+            width: 36px; height: 36px; cursor: pointer; color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Main */
+        .dash-main {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 26px 20px 60px;
+        }
+
+        .dash-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+        .dash-subtitle { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 24px; }
+
+        /* Login prompt */
+        .login-prompt {
+            background: var(--card-bg);
+            border: 1.5px dashed var(--border-light);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .login-prompt i { font-size: 1.8rem; color: var(--primary); margin-bottom: 10px; }
+        .login-prompt p { color: var(--text-muted); margin: 8px 0 16px; font-size: 0.92rem; }
+        .login-prompt a {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            color: #fff; text-decoration: none; padding: 10px 22px; border-radius: 50px;
+            font-weight: 800; font-size: 0.9rem;
+        }
+
+        /* Overview card with big progress bar */
+        .overview-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-light);
+            border-radius: 22px;
+            padding: 26px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 20px;
+        }
+
+        .overview-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .overview-greeting { font-size: 1.05rem; font-weight: 800; }
+        .overview-greeting span { color: var(--primary); }
+
+        .overview-percent {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+        }
+        .overview-percent small { font-size: 1rem; font-weight: 700; color: var(--text-muted); }
+
+        .progress-track {
+            width: 100%;
+            height: 16px;
+            background: var(--primary-light);
+            border-radius: 50px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-accent), var(--primary));
+            border-radius: 50px;
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+
+        .progress-caption {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 700px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px;
+            text-align: center;
+        }
+        .stat-icon {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--primary-light); color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.15rem; margin: 0 auto 10px;
+        }
+        .stat-value { font-size: 1.15rem; font-weight: 900; margin-bottom: 4px; word-break: break-word; }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
+
+        /* Lessons checklist */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lesson-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+        }
+        .lesson-row.completed { border-color: var(--success); background: var(--success-light); }
+
+        .lesson-status-icon {
+            width: 38px; height: 38px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0;
+        }
+        .lesson-status-icon.done { background: var(--success-light); color: var(--success); }
+        .lesson-status-icon.progress { background: var(--primary-light); color: var(--primary); }
+        .lesson-status-icon.locked { background: var(--border-color); color: var(--text-muted); }
+        .lesson-status-icon.new { background: var(--primary-light); color: var(--primary-dark); }
+
+        .lesson-info { flex: 1; min-width: 0; }
+        .lesson-num { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; }
+        .lesson-name { font-size: 0.95rem; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lesson-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+        .lesson-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 50px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .lesson-badge.done { background: var(--success-light); color: #15803d; }
+        .lesson-badge.progress { background: var(--primary-light); color: var(--primary-dark); }
+        .lesson-badge.locked { background: var(--border-color); color: var(--text-muted); }
+        .lesson-badge.new { background: var(--primary-light); color: var(--primary-dark); }
+
+        .cta-row { text-align: center; margin-top: 24px; }
+        .cta-row a {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            color: #fff; text-decoration: none; padding: 12px 28px; border-radius: 50px;
+            font-weight: 800; font-size: 0.95rem;
+        }
+    </style>
+    <script src="site-theme.js" defer></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="dash-header">
+        <div class="header-inner">
+            <a href="index.html" class="header-logo">
+                <div class="logo-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <span>لوحة تقدمي</span>
+            </a>
+            <div class="header-actions">
+                <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+                <a href="course.html" class="back-link">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>الكورس</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="dash-main">
+        <h1 class="dash-title"><i class="fa-solid fa-chart-line" style="color:var(--primary);"></i> لوحة تقدمي في الكورس</h1>
+        <p class="dash-subtitle">تابع نسبة إنجازك، آخر درس وصلت له، والوقت المتبقي لإنهاء الكورس بالكامل.</p>
+
+        <!-- Login prompt -->
+        <div class="login-prompt" id="loginPrompt" style="display:none;">
+            <i class="fa-solid fa-lock"></i>
+            <h3>سجّل دخولك لعرض لوحة تقدمك</h3>
+            <p>لوحة التقدم مرتبطة بحسابك الشخصي، سجّل دخولك أولاً لمتابعة إنجازك في الكورس.</p>
+            <a href="auth.html"><i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول</a>
+        </div>
+
+        <!-- Dashboard content -->
+        <div id="dashboardContent" style="display:none;">
+
+            <!-- Overview -->
+            <div class="overview-card">
+                <div class="overview-top">
+                    <div class="overview-greeting">أهلاً بيك يا <span id="studentName">—</span> 👋</div>
+                    <div class="overview-percent"><span id="percentValue">0</span><small>%</small></div>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-caption">
+                    <span id="progressCaptionLeft">0 من 10 حلقات مكتملة</span>
+                    <span id="progressCaptionRight">نسبة إنجاز الكورس</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="stat-value" id="lastLessonValue">—</div>
+                    <div class="stat-label">آخر درس وصلت له</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-value" id="completedCountValue">0 / 10</div>
+                    <div class="stat-label">الدروس المكتملة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                    <div class="stat-value" id="remainingTimeValue">—</div>
+                    <div class="stat-label">الوقت المتبقي للكورس</div>
+                </div>
+            </div>
+
+            <!-- Lessons checklist -->
+            <h2 class="section-title"><i class="fa-solid fa-list-check" style="color:var(--primary);"></i> تفاصيل الحلقات</h2>
+            <div id="lessonsList"></div>
+
+            <div class="cta-row">
+                <a href="course.html"><i class="fa-solid fa-circle-play"></i> متابعة المشاهدة</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ─── بيانات الحلقات (لازم تطابق course.html) ───
+        const LESSONS = [
+            { num: 1,  title: 'مقدمة عن المونتاج',                           seconds: 18 * 60 + 45 },
+            { num: 2,  title: 'توليد المشاهد السينمائية 4K بـ AI',           seconds: 24 * 60 + 10 },
+            { num: 3,  title: 'التقطيع الآلي الذكي وحذف الصمت',              seconds: 21 * 60 + 30 },
+            { num: 4,  title: 'تنقية وهندسة الصوت وعزل الضوضاء',             seconds: 19 * 60 + 15 },
+            { num: 5,  title: 'الكابشنز والمؤثرات النصية التلقائية',          seconds: 26 * 60 + 40 },
+            { num: 6,  title: 'تصحيح الألوان السينمائي بالـ AI',              seconds: 22 * 60 + 50 },
+            { num: 7,  title: 'استنساخ الصوت والـ AI Voiceover',              seconds: 30 * 60 + 15 },
+            { num: 8,  title: 'المؤثرات البصرية وتوسيع المشاهد',              seconds: 25 * 60 +  0 },
+            { num: 9,  title: 'مشروع كامل من البداية للنهاية',                seconds: 35 * 60 + 20 },
+            { num: 10, title: 'العمل الحر والربح بالدولار',                   seconds: 28 * 60 + 45 },
+        ];
+        const TOTAL_SECONDS = LESSONS.reduce((sum, l) => sum + l.seconds, 0);
+
+        function getCurrentUser() {
+            try {
+                return JSON.parse(sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || 'null');
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function isCourseUnlocked(email) {
+            return localStorage.getItem('courseUnlocked_' + email) === 'true';
+        }
+
+        function isLessonUnlocked(num, courseUnlocked) {
+            if (num === 1) return true;
+            if (courseUnlocked) return true;
+            if (num === 2 && localStorage.getItem('unlocked_episode_2') === 'true') return true;
+            return false;
+        }
+
+        function formatDuration(totalSeconds) {
+            totalSeconds = Math.max(0, Math.round(totalSeconds));
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            if (h > 0) return `${h} ساعة${m > 0 ? ' و ' + m + ' دقيقة' : ''}`;
+            if (m > 0) return `${m} دقيقة`;
+            return 'أقل من دقيقة';
+        }
+
+        function initDashboard() {
+            const user = getCurrentUser();
+            const loginPrompt = document.getElementById('loginPrompt');
+            const content = document.getElementById('dashboardContent');
+
+            if (!user || !user.email) {
+                loginPrompt.style.display = 'block';
+                content.style.display = 'none';
+                return;
+            }
+
+            loginPrompt.style.display = 'none';
+            content.style.display = 'block';
+
+            const email = user.email.toLowerCase();
+            document.getElementById('studentName').innerText = user.name || user.email;
+
+            const allWatchStats = JSON.parse(localStorage.getItem('watchStats') || '{}');
+            const userData = allWatchStats[email] || { episodesWatched: {} };
+            const episodesWatched = userData.episodesWatched || {};
+            const courseUnlocked = isCourseUnlocked(email);
+
+            // ─── حساب الإحصائيات ───
+            let completedCount = 0;
+            let completedSeconds = 0;
+            let lastLessonNum = null;
+
+            LESSONS.forEach(lesson => {
+                const epData = episodesWatched[lesson.num];
+                if (epData) {
+                    if (lastLessonNum === null || lesson.num > lastLessonNum) lastLessonNum = lesson.num;
+                    if (epData.completed) {
+                        completedCount++;
+                        completedSeconds += lesson.seconds;
+                    }
+                }
+            });
+
+            const percent = Math.round((completedCount / LESSONS.length) * 100);
+            const remainingSeconds = TOTAL_SECONDS - completedSeconds;
+
+            // ─── تحديث شريط التقدم والنسبة ───
+            document.getElementById('percentValue').innerText = percent;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressCaptionLeft').innerText = `${completedCount} من ${LESSONS.length} حلقات مكتملة`;
+
+            // ─── تحديث بطاقات الإحصائيات ───
+            document.getElementById('completedCountValue').innerText = `${completedCount} / ${LESSONS.length}`;
+            document.getElementById('remainingTimeValue').innerText = remainingSeconds > 0 ? formatDuration(remainingSeconds) : 'خلصت الكورس! 🎉';
+
+            const lastLessonEl = document.getElementById('lastLessonValue');
+            if (lastLessonNum) {
+                const lastLesson = LESSONS.find(l => l.num === lastLessonNum);
+                lastLessonEl.innerText = `ح${lastLessonNum}: ${lastLesson.title}`;
+                lastLessonEl.title = lastLesson.title;
+            } else {
+                lastLessonEl.innerText = 'لسه ما بدأتش';
+            }
+
+            // ─── عرض قائمة الحلقات بالتفصيل ───
+            const listEl = document.getElementById('lessonsList');
+            listEl.innerHTML = LESSONS.map(lesson => {
+                const epData = episodesWatched[lesson.num];
+                const unlocked = isLessonUnlocked(lesson.num, courseUnlocked);
+
+                let iconClass, badgeClass, badgeText, subText;
+
+                if (epData && epData.completed) {
+                    iconClass = 'done';
+                    badgeClass = 'done';
+                    badgeText = 'مكتملة ✓';
+                    subText = 'مدة الحلقة: ' + formatShortDuration(lesson.seconds);
+                } else if (epData && epData.seconds > 0) {
+                    iconClass = 'progress';
+                    badgeClass = 'progress';
+                    badgeText = 'قيد المشاهدة';
+                    subText = `شاهدت ${formatShortDuration(epData.seconds)} من ${formatShortDuration(lesson.seconds)}`;
+                } else if (!unlocked) {
+                    iconClass = 'locked';
+                    badgeClass = 'locked';
+                    badgeText = 'مقفولة';
+                    subText = 'افتح الكورس كامل لمشاهدتها';
+                } else {
+                    iconClass = 'new';
+                    badgeClass = 'new';
+                    badgeText = 'لم تُشاهد بعد';
+                    subText = 'مدة الحلقة: ' + formatShortDuration(lesson.seconds);
+                }
+
+                const icon = iconClass === 'done' ? 'fa-check'
+                    : iconClass === 'progress' ? 'fa-play'
+                    : iconClass === 'locked' ? 'fa-lock'
+                    : 'fa-circle-play';
+
+                return `
+                    <div class="lesson-row ${iconClass === 'done' ? 'completed' : ''}">
+                        <div class="lesson-status-icon ${iconClass}"><i class="fa-solid ${icon}"></i></div>
+                        <div class="lesson-info">
+                            <div class="lesson-num">الحلقة ${lesson.num}</div>
+                            <div class="lesson-name">${lesson.title}</div>
+                            <div class="lesson-sub">${subText}</div>
+                        </div>
+                        <span class="lesson-badge ${badgeClass}">${badgeText}</span>
+                    </div>`;
+            }).join('');
+        }
+
+        function formatShortDuration(sec) {
+            sec = Math.round(sec);
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return `${m}:${String(s).padStart(2, '0')}`;
+        }
+
+        // ─── الوضع المظلم ───
+        function initTheme() {
+            if (localStorage.getItem('site_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            const icon = document.getElementById('themeIcon');
+            icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        initTheme();
+        initDashboard();
+    </script>
+</body>
+</html>

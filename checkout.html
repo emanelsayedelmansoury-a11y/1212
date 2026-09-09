@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الدفع - كورس المونتاج بالذكاء الاصطناعي | بوابة شحناوي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-light: #e0f2fe;
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-accent: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --bg-gradient: linear-gradient(180deg, #f8fbff 0%, #f0f7ff 100%);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --border-focus: #38bdf8;
+            --input-bg: #ffffff;
+            --trust-bg: #f8fafc;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --shadow-card: 0 12px 35px rgba(2, 132, 199, 0.08);
+            --shadow-button: 0 8px 25px rgba(2, 132, 199, 0.35);
+        }
+
+        /* 🌙 Dark Mode Variables */
+        body.dark-mode {
+            --primary-light: #0c2d48;
+            --primary: #38bdf8;
+            --primary-dark: #0284c7;
+            --primary-accent: #0ea5e9;
+            --bg-gradient: linear-gradient(180deg, #0b1120 0%, #070d19 100%);
+            --card-bg: #131d31;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --border-focus: #38bdf8;
+            --input-bg: #0f172a;
+            --trust-bg: #0f172a;
+            --header-bg: rgba(15, 23, 42, 0.92);
+            --shadow-card: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Top Header */
+        .checkout-header {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* زر الوضع المظلم */
+        .theme-toggle-btn {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.08);
+            color: var(--primary-accent);
+        }
+
+        /* قسيمة الخصم Coupon */
+        .coupon-box {
+            background: var(--trust-bg);
+            border: 1.5px dashed var(--primary);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .coupon-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .coupon-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .coupon-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: var(--input-bg);
+            color: var(--text-main);
+            text-align: center;
+            direction: ltr;
+        }
+
+        .coupon-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-apply-coupon {
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-apply-coupon:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .coupon-feedback {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: none;
+        }
+
+        .coupon-feedback.success {
+            display: block;
+            color: #10b981;
+        }
+
+        .coupon-feedback.error {
+            display: block;
+            color: #ef4444;
+        }
+
+        .price-row.coupon-row {
+            display: none;
+            color: #10b981;
+            font-weight: 800;
+        }
+
+        .price-row.coupon-row.active {
+            display: flex;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        /* Main Container */
+        .checkout-main {
+            flex: 1;
+            max-width: 1000px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* White Cards */
+        .checkout-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-card);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        /* Order Summary Card */
+        .summary-item {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .item-thumb {
+            width: 80px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--primary-light);
+        }
+
+        .item-details h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .item-details p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .price-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .price-row.total {
+            color: var(--text-main);
+            font-size: 1.3rem;
+            font-weight: 800;
+            padding-top: 14px;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .price-row.total .price-val {
+            color: var(--primary);
+            font-size: 1.6rem;
+            font-weight: 900;
+        }
+
+        .trust-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: var(--trust-bg);
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .trust-item i {
+            color: var(--primary);
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background: var(--input-bg);
+            transition: all 0.2s ease;
+            direction: rtl;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Method Selector (Wallets) */
+        .wallet-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .wallet-card {
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .wallet-card:hover {
+            border-color: #bae6fd;
+            background: #f0f9ff;
+        }
+
+        .wallet-card.selected {
+            border-color: var(--primary);
+            background: #e0f2fe;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.15);
+        }
+
+        .wallet-card input[type="radio"] {
+            display: none;
+        }
+
+        .wallet-icon {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .wallet-card.vf .wallet-icon {
+            color: #e60000;
+        }
+
+        .wallet-card.or .wallet-icon {
+            color: #ff6600;
+        }
+
+        .wallet-card.et .wallet-icon {
+            color: #00aa4f;
+        }
+
+        .wallet-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* Pay Button */
+        .checkout-submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary) 100%);
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow-button);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkout-submit-btn:hover {
+            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-dark) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.45);
+        }
+
+        .checkout-submit-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* API Key Collapsible Tool */
+        .api-key-toggle {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .api-key-panel {
+            display: none;
+            margin-top: 12px;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .api-key-panel.open {
+            display: block;
+        }
+
+        /* Payment Status Modal / Step 2 & 3 Views */
+        .status-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .status-modal {
+            background: #ffffff;
+            max-width: 500px;
+            width: 100%;
+            border-radius: 28px;
+            padding: 36px 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            border: 2px solid #bae6fd;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+        }
+
+        .modal-icon.pending {
+            background: #e0f2fe;
+            color: var(--primary);
+        }
+
+        .modal-icon.success {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .modal-icon.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .modal-desc {
+            font-size: 1rem;
+            color: #475569;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .instructions-box {
+            background: #f0f9ff;
+            border: 2px dashed #38bdf8;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .instructions-box .code-highlight {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #0284c7;
+            letter-spacing: 2px;
+            display: block;
+            margin: 8px 0;
+        }
+
+        .timer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .btn-confirm-now {
+            width: 100%;
+            padding: 14px;
+            background: #0284c7;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .btn-confirm-now:hover {
+            background: #0369a1;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .btn-cancel:hover {
+            color: #0f172a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-card {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .wallet-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+    <script src="site-theme.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="checkout-header">
+        <div class="header-inner">
+            <a href="index.html" class="header-logo">
+                <div class="logo-box">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <span>كورس مونتاج AI</span>
+            </a>
+            <div class="header-left-actions">
+                <button type="button" class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="تبديل الوضع الليلي / النهاري">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+                <a href="index.html" class="back-link">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>العودة للموقع الرئيسي</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="checkout-main">
+        <div class="checkout-grid">
+
+            <!-- Payment Form Card -->
+            <div class="checkout-card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>بيانات الدفع عبر المحافظ الإلكترونية</span>
+                </h2>
+
+                <form id="paymentForm" onsubmit="handleStartPayment(event)">
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label class="form-label" for="clientName">الاسم بالكامل</label>
+                        <input type="text" id="clientName" class="form-control" placeholder="أدخل اسمك الكريم" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label class="form-label" for="clientEmail">البريد الإلكتروني (لاستلام الكورس)</label>
+                        <input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com"
+                            required>
+                        <span class="form-hint">سيتم إرسال رابط الدخول وبيانات الكورس مباشرة إلى هذا البريد.</span>
+                    </div>
+
+                    <!-- Wallet Mobile Number -->
+                    <div class="form-group">
+                        <label class="form-label" for="walletNumber">رقم محفظة الكاش (11 رقماً)</label>
+                        <input type="tel" id="walletNumber" class="form-control" placeholder="مثال: 01012345678"
+                            maxlength="11" required oninput="handlePhoneInput(this)">
+                        <span class="form-hint">رقم الهاتف المرتبط بمحفظتك (فودافون، أورنج، اتصالات).</span>
+                    </div>
+
+                    <!-- Wallet Selection -->
+                    <div class="form-group">
+                        <label class="form-label">اختر شبكة المحفظة</label>
+                        <div class="wallet-options">
+                            <label class="wallet-card vf selected" onclick="selectWallet('vf_cash', this)">
+                                <input type="radio" name="walletMethod" value="vf_cash" checked>
+                                <i class="fa-solid fa-mobile-screen-button wallet-icon"></i>
+                                <span class="wallet-title">فودافون كاش</span>
+                            </label>
+
+                            <label class="wallet-card or" onclick="selectWallet('or_cash', this)">
+                                <input type="radio" name="walletMethod" value="or_cash">
+                                <i class="fa-solid fa-mobile-screen-button wallet-icon"></i>
+                                <span class="wallet-title">أورنج كاش</span>
+                            </label>
+
+                            <label class="wallet-card et" onclick="selectWallet('et_cash', this)">
+                                <input type="radio" name="walletMethod" value="et_cash">
+                                <i class="fa-solid fa-mobile-screen-button wallet-icon"></i>
+                                <span class="wallet-title">اتصالات كاش</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submitBtn" class="checkout-submit-btn">
+                        <i class="fa-solid fa-lock"></i>
+                        <span id="submitBtnText">ادفع الان (300 جنيه مصري)</span>
+                    </button>
+
+                    <!-- API Configuration Toggle -->
+                    <div class="api-key-toggle" onclick="toggleApiSettings()">
+                        <span><i class="fa-solid fa-gear"></i> إعداد مفتاح بوابة شحناوي (API Key)</span>
+                        <i class="fa-solid fa-chevron-down" id="apiChevron"></i>
+                    </div>
+
+                    <div class="api-key-panel" id="apiPanel">
+                        <label class="form-label" style="font-size: 0.85rem;" for="publicKeyInput">المفتاح العام (Public
+                            Key)</label>
+                        <input type="text" id="publicKeyInput" class="form-control" style="font-size: 0.9rem;"
+                            placeholder="ضع هنا مفتاحك العام من بوابة شحناوي" onchange="saveApiKey(this.value)">
+                        <span class="form-hint">يتم حفظ المفتاح محلياً في متصفحك لإجراء عمليات الدفع الفورية.</span>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Order Summary Sidebar -->
+            <div class="checkout-card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>ملخص الطلب</span>
+                </h2>
+
+                <div class="summary-item">
+                    <img src="editor.jpg" alt="كورس المونتاج" class="item-thumb">
+                    <div class="item-details">
+                        <h4>كورس احتراف المونتاج بـ AI</h4>
+                        <p>باقة شاملة + وصول مدى الحياة</p>
+                    </div>
+                </div>
+
+                <!-- 🎁 كود الخصم Coupon Section -->
+                <div class="coupon-box">
+                    <div class="coupon-header">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span>هل لديك كود خصم؟</span>
+                    </div>
+                    <div class="coupon-input-group">
+                        <input type="text" id="couponInput" class="coupon-input" placeholder="اكتب الكود هنا">
+                        <button type="button" class="btn-apply-coupon" onclick="applyCouponCode()">تطبيق الخصم</button>
+                    </div>
+                    <div class="coupon-feedback" id="couponFeedback"></div>
+                </div>
+
+                <div class="price-rows">
+                    <div class="price-row">
+                        <span>السعر الأصلي:</span>
+                        <span style="text-decoration: line-through;">750 ج.م</span>
+                    </div>
+                    <div class="price-row">
+                        <span>خصم خاص (لفترة محدودة):</span>
+                        <span style="color: var(--primary);">-450 ج.م</span>
+                    </div>
+                    <div class="price-row coupon-row" id="couponPriceRow">
+                        <span>كود الخصم (<strong id="appliedCouponLabel">QWE123</strong>):</span>
+                        <span style="color: #10b981;">-100 ج.م</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>المبلغ الإجمالي:</span>
+                        <span class="price-val" id="finalPriceDisplay">300 ج.م</span>
+                    </div>
+                </div>
+
+                <div class="trust-badges">
+                    <div class="trust-item">
+                        <i class="fa-solid fa-shield-check"></i>
+                        <span>معاملات مشفرة وآمنة عبر بوابة شحناوي</span>
+                    </div>
+                    <div class="trust-item">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>تفعيل فوري للمحتوى بعد تأكيد السحب مباشرة</span>
+                    </div>
+                    <div class="trust-item">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal: Confirmation & Instructions / Success / Error -->
+    <div class="status-overlay" id="statusModalOverlay">
+        <div class="status-modal">
+
+            <!-- Step 2: Waiting For Confirmation -->
+            <div id="modalWaitingView">
+                <div class="modal-icon pending">
+                    <i class="fa-solid fa-hourglass-half fa-spin"></i>
+                </div>
+                <h3 class="modal-title">تأكيد طلب السحب</h3>
+                <div class="timer-badge">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="countdownTimer">60 ثانية متبقية</span>
+                </div>
+
+                <div class="instructions-box" id="instructionsBox">
+                    <!-- Dynamic Instruction text -->
+                </div>
+
+                <p class="modal-desc" style="font-size: 0.9rem;">
+                    رقم المرجع (Reference): <strong id="modalRefCode" style="color: var(--primary);">--</strong>
+                </p>
+
+                <button type="button" class="btn-confirm-now" onclick="triggerConfirmPayment()">
+                    <i class="fa-solid fa-check-circle"></i> تم التأكيد من هاتفي - تحقق الآن
+                </button>
+                <button type="button" class="btn-cancel" onclick="closeModal()">إلغاء العملية</button>
+            </div>
+
+            <!-- Step 3: Success View -->
+            <div id="modalSuccessView" style="display: none;">
+                <div class="modal-icon success">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="modal-title" style="color: #059669;">تمت عملية الدفع بنجاح! 🎉</h3>
+                <p class="modal-desc">
+                    تهانينا! تم تأكيد سحب مبلغ <strong id="successAmount">300 جنيه مصري</strong> وتفعيل اشتراكك في الكورس بنجاح.
+                </p>
+                <div class="instructions-box" style="background: #ecfdf5; border-color: #10b981;">
+                    <p style="color: #065f46; font-size: 0.9rem; margin-bottom: 6px;">رقم المعاملة (Transaction ID):</p>
+                    <span class="code-highlight" id="successTxId" style="color: #059669; font-size: 1.4rem;">--</span>
+                    <p style="color: #047857; font-size: 0.85rem; margin-top: 6px;">تم إرسال تفاصيل الدخول إلى بريدك
+                        الإلكتروني.</p>
+                </div>
+                <button type="button" class="checkout-submit-btn" onclick="goToCourse()">
+                    <i class="fa-solid fa-circle-play"></i> بدء مشاهدة الكورس الآن
+                </button>
+            </div>
+
+            <!-- Error View -->
+            <div id="modalErrorView" style="display: none;">
+                <div class="modal-icon error">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="modal-title" style="color: #dc2626;">تعذر استكمال الدفع</h3>
+                <p class="modal-desc" id="errorMessageText">
+                    حدث خطأ أثناء معالجة الطلب. يرجى المحاولة مجدداً.
+                </p>
+                <button type="button" class="btn-confirm-now" style="background: #dc2626;" onclick="closeModal()">
+                    إعادة المحاولة
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script Logic for Sha7nawy Gateway -->
+    <script>
+        const GATEWAY_BASE = 'https://gate.sha7nawy.com';
+        const DEFAULT_PUBLIC_KEY = 'IQmQxdTxwqVr2CyJEaucYRUuETL3zEnTIcJmyAvUG8DZH84PFkuAbLK5yIv0K32VoO7B7kwRFNGi5QWPXUhalC1inLOcuv1GCU4H';
+        let currentMethod = 'vf_cash';
+        let activeRefCode = null;
+        let countdownInterval = null;
+        let pollInterval = null;
+        let timeLeft = 60;
+        let baseAmount = 300;
+        let completedTransactionId = null;
+
+        // Helper to get the logged‑in user's email (if any)
+        function getCurrentUserEmail() {
+            const user = JSON.parse(sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || 'null');
+            return user && user.email ? user.email.toLowerCase() : null;
+        }
+        const email = getCurrentUserEmail();
+        let currentAmount = baseAmount;
+
+        let appliedCoupon = null;
+
+        // ─── الوضع المظلم (Dark Mode) ───
+        function initTheme() {
+            const savedTheme = localStorage.getItem('site_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                updateThemeIcon(true);
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                if (isDark) {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                }
+            }
+        }
+
+// Update price display based on currentAmount
+function updatePriceDisplay() {
+    const finalDisplay = document.getElementById('finalPriceDisplay');
+    const submitBtn = document.getElementById('submitBtnText');
+    if (finalDisplay) finalDisplay.innerText = `${currentAmount} ج.م`;
+    if (submitBtn) submitBtn.innerText = `ادفع الان (${currentAmount} جنيه مصري)`;
+}
+
+// Apply coupon code
+function applyCouponCode() {
+    const input = document.getElementById('couponInput');
+    const feedback = document.getElementById('couponFeedback');
+    const code = input.value.trim().toUpperCase();
+
+    if (!code) {
+        feedback.className = 'coupon-feedback error';
+        feedback.innerText = 'يرجى كتابة كود الخصم أولاً';
+        return;
+    }
+
+    if (code === '1010') {
+        const emailInput = document.getElementById('clientEmail');
+        const email = emailInput ? emailInput.value.trim() : '';
+
+        if (!email) {
+            feedback.className = 'coupon-feedback error';
+            feedback.innerText = 'يرجى كتابة البريد الإلكتروني أولاً قبل تطبيق الكود';
+            emailInput?.focus();
+            return;
+        }
+
+        appliedCoupon = '1010';
+        currentAmount = 0;
+        // Update UI
+        document.getElementById('couponPriceRow').classList.add('active');
+        document.getElementById('appliedCouponLabel').innerText = '1010';
+        updatePriceDisplay();
+        feedback.className = 'coupon-feedback success';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> رائع! تم تطبيق خصم 100% بنجاح، جاري تحويلك للكورس... 🎉';
+        input.disabled = true;
+
+        // تفعيل الكورس فوراً لهذا البريد ثم التحويل لصفحة الكورس
+        localStorage.setItem('courseUnlocked_' + email.toLowerCase(), 'true');
+        setTimeout(() => {
+            window.location.href = 'course.html';
+        }, 1200);
+        return;
+    }
+
+    if (code === 'QWE123') {
+        if (appliedCoupon === 'QWE123') {
+            feedback.className = 'coupon-feedback error';
+            feedback.innerText = 'تم تطبيق هذا الكود بالفعل مسبقاً!';
+            return;
+        }
+        appliedCoupon = 'QWE123';
+        const couponDiscount = 100;
+        currentAmount = Math.max(0, baseAmount - couponDiscount);
+        // Update UI
+        document.getElementById('couponPriceRow').classList.add('active');
+        document.getElementById('appliedCouponLabel').innerText = 'QWE123';
+        updatePriceDisplay();
+        feedback.className = 'coupon-feedback success';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> رائع! تم تطبيق كود الخصم وخصم 100 جنيه بنجاح 🎉';
+        input.disabled = true;
+    } else {
+        feedback.className = 'coupon-feedback error';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> كود الخصم غير صحيح أو منتهي الصلاحية';
+    }
+}
+
+        document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    // Initialize price display
+    updatePriceDisplay();
+    const savedKey = localStorage.getItem('sha7nawy_public_key') || DEFAULT_PUBLIC_KEY;
+    document.getElementById('publicKeyInput').value = savedKey;
+});
+
+        function saveApiKey(val) {
+            localStorage.setItem('sha7nawy_public_key', val.trim());
+        }
+
+        function toggleApiSettings() {
+            const panel = document.getElementById('apiPanel');
+            panel.classList.toggle('open');
+            const chevron = document.getElementById('apiChevron');
+            chevron.style.transform = panel.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // Method selection
+        function selectWallet(method, element) {
+            currentMethod = method;
+            document.querySelectorAll('.wallet-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+        }
+
+        // Auto-detect wallet by prefix
+        function handlePhoneInput(input) {
+            const val = input.value.trim();
+            if (val.startsWith('010')) {
+                const el = document.querySelector('.wallet-card.vf');
+                if (el) selectWallet('vf_cash', el);
+            } else if (val.startsWith('012')) {
+                const el = document.querySelector('.wallet-card.or');
+                if (el) selectWallet('or_cash', el);
+            } else if (val.startsWith('011')) {
+                const el = document.querySelector('.wallet-card.et');
+                if (el) selectWallet('et_cash', el);
+            }
+        }
+
+        // Step 1: Create Payment
+        async function handleStartPayment(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('clientName').value.trim();
+            const email = document.getElementById('clientEmail').value.trim();
+            const number = document.getElementById('walletNumber').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+
+            // Validation
+            if (number.length !== 11 || !number.startsWith('01')) {
+                alert('يرجى إدخال رقم هاتف صحيح مكون من 11 رقماً يبدأ بـ 01');
+                return;
+            }
+
+            let publicKey = localStorage.getItem('sha7nawy_public_key') || document.getElementById('publicKeyInput').value.trim() || DEFAULT_PUBLIC_KEY;
+            if (!publicKey) {
+                publicKey = DEFAULT_PUBLIC_KEY;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري إنشاء طلب الدفع...';
+
+            const payload = {
+                number: number,
+                amount: currentAmount,
+                method: currentMethod,
+                client: email,
+                details: `كورس مونتاج بالذكاء الاصطناعي - ${name}${appliedCoupon ? ' (كود: ' + appliedCoupon + ')' : ''}`
+            };
+
+            try {
+                const res = await fetch(`${GATEWAY_BASE}/api/payment/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': publicKey
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+
+                if (data.status === true && data.data && data.data.reference) {
+                    activeRefCode = data.data.reference;
+                    showWaitingModal(currentMethod, activeRefCode, data.message);
+                } else {
+                    showErrorModal(data.message || 'تعذر إنشاء عملية الدفع، يرجى مراجعة رقم الهاتف أو مفتاح الـ API');
+                }
+            } catch (err) {
+                console.warn('Network or CORS notice:', err);
+                showErrorModal('حدث خطأ في الاتصال بخادم بوابة الدفع. تأكد من اتصال الإنترنت وصلاحية المفتاح العام.');
+            } finally {
+                submitBtn.innerHTML = `<i class="fa-solid fa-lock"></i> <span>ادفع الان (${currentAmount} جنيه مصري)</span>`;
+            }
+        }
+
+        // Display Step 2 Waiting Modal
+        function showWaitingModal(method, refCode, serverMessage) {
+            document.getElementById('statusModalOverlay').style.display = 'flex';
+            document.getElementById('modalWaitingView').style.display = 'block';
+            document.getElementById('modalSuccessView').style.display = 'none';
+            document.getElementById('modalErrorView').style.display = 'none';
+
+            document.getElementById('modalRefCode').innerText = refCode;
+
+            const box = document.getElementById('instructionsBox');
+            if (method === 'vf_cash') {
+                box.innerHTML = `
+                    <p style="color: #0369a1; font-weight: 700; font-size: 1rem;">يرجى طلب الكود التالي من هاتفك الآن:</p>
+                    <span class="code-highlight">*9*1#</span>
+                    <p style="color: #475569; font-size: 0.9rem;">ثم أدخل الرقم السري لمحفظتك لتأكيد سحب مبلغ <strong>${currentAmount} جنيه</strong>.</p>
+                `;
+            } else if (method === 'or_cash') {
+                box.innerHTML = `
+                    <p style="color: #0369a1; font-weight: 700; font-size: 1rem;">افتح تطبيق Orange Cash الآن</p>
+                    <span class="code-highlight" style="font-size: 1.2rem;">تأكيد المعاملة المعلقة</span>
+                    <p style="color: #475569; font-size: 0.9rem;">قم بالموافقة على طلب سحب <strong>${currentAmount} جنيه</strong> المعلق في التطبيق.</p>
+                `;
+            } else {
+                box.innerHTML = `
+                    <p style="color: #0369a1; font-weight: 700; font-size: 1rem;">افتح تطبيق e& Money (اتصالات)</p>
+                    <span class="code-highlight" style="font-size: 1.2rem;">تأكيد المعاملة المعلقة</span>
+                    <p style="color: #475569; font-size: 0.9rem;">قم بالموافقة على طلب سحب <strong>${currentAmount} جنيه</strong> المعلق في التطبيق.</p>
+                `;
+            }
+
+            // Start countdown
+            timeLeft = 60;
+            updateTimerText();
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerText();
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    clearInterval(pollInterval);
+                    showErrorModal('العملية منتهية - انتهت مدة تأكيد السحب (60 ثانية). يرجى المحاولة مجدداً.');
+                }
+            }, 1000);
+
+            // Auto poll every 6 seconds
+            clearInterval(pollInterval);
+            pollInterval = setInterval(() => {
+                triggerConfirmPayment(true);
+            }, 6000);
+        }
+
+        function updateTimerText() {
+            document.getElementById('countdownTimer').innerText = `${timeLeft} ثانية متبقية`;
+        }
+
+        // Step 2 Confirm Payment API
+        async function triggerConfirmPayment(isSilent = false) {
+            if (!activeRefCode) return;
+
+            const publicKey = localStorage.getItem('sha7nawy_public_key') || document.getElementById('publicKeyInput').value.trim();
+
+            try {
+                const res = await fetch(`${GATEWAY_BASE}/api/payment/confirm`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': publicKey
+                    },
+                    body: JSON.stringify({ ref_code: activeRefCode })
+                });
+
+                const data = await res.json();
+
+                if (data.status === true && data.data && (data.data.status === 'completed' || data.code === 200)) {
+                    clearInterval(countdownInterval);
+                    clearInterval(pollInterval);
+                    showSuccessModal(data.data.transaction_id || data.data.reference || activeRefCode);
+                } else if (!isSilent) {
+                    alert(data.message || 'العملية معلقة لموافقة العميل - يرجى التأكيد من هاتفك ثم الضغط مجدداً');
+                }
+            } catch (err) {
+                if (!isSilent) {
+                    console.error('Confirm error:', err);
+                }
+            }
+        }
+
+        // Step 3 Success Modal
+        function showSuccessModal(txId) {
+            if (completedTransactionId) return;
+            completedTransactionId = txId;
+            document.getElementById('modalWaitingView').style.display = 'none';
+            document.getElementById('modalErrorView').style.display = 'none';
+            document.getElementById('modalSuccessView').style.display = 'block';
+            document.getElementById('successTxId').innerText = txId;
+            document.getElementById('successAmount').innerText = `${currentAmount} جنيه مصري`;
+
+            // سجل المبلغ الذي تم تأكيده فعلياً، بعد أي خصم مُطبّق.
+            const prevTotal = parseFloat(localStorage.getItem('totalRevenueAmount') || '0');
+            localStorage.setItem('totalRevenueAmount', prevTotal + currentAmount);
+
+            // تفعيل الكورس تلقائياً لهذا الطالب
+            const clientEmail = document.getElementById('clientEmail')?.value?.trim();
+            if (clientEmail) {
+                localStorage.setItem('courseUnlocked_' + clientEmail.toLowerCase(), 'true');
+            }
+        }
+
+        // Error Modal
+        function showErrorModal(message) {
+            clearInterval(countdownInterval);
+            clearInterval(pollInterval);
+            document.getElementById('statusModalOverlay').style.display = 'flex';
+            document.getElementById('modalWaitingView').style.display = 'none';
+            document.getElementById('modalSuccessView').style.display = 'none';
+            document.getElementById('modalErrorView').style.display = 'block';
+            document.getElementById('errorMessageText').innerText = message;
+        }
+
+        function closeModal() {
+            clearInterval(countdownInterval);
+            clearInterval(pollInterval);
+            activeRefCode = null;
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn && !completedTransactionId) submitBtn.disabled = false;
+            document.getElementById('statusModalOverlay').style.display = 'none';
+        }
+
+        function goToCourse() {
+            alert('أهلاً بك! سيتم تحويلك إلى صفحة المشاهدة الخاصة بكورس المونتاج بالذكاء الاصطناعي.');
+            window.location.href = 'index.html';
+        }
+
+    </script>
+</body>
+
+</html>
