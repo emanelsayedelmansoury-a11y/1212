@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كورس احتراف المونتاج بالذكاء الاصطناعي | AI Video Editing Masterclass</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-light: #e0f2fe;
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --primary-accent: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --bg-gradient: linear-gradient(180deg, #f8fbff 0%, #f0f7ff 100%);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --navbar-bg: rgba(255, 255, 255, 0.88);
+            --shadow-soft: 0 10px 30px rgba(2, 132, 199, 0.08);
+            --shadow-glow: 0 20px 40px rgba(56, 189, 248, 0.22);
+        }
+
+        body.dark-mode {
+            --primary-light: #0c2d48;
+            --primary: #38bdf8;
+            --primary-dark: #0284c7;
+            --primary-accent: #0ea5e9;
+            --bg-gradient: linear-gradient(180deg, #0b1120 0%, #070d19 100%);
+            --card-bg: #131d31;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --navbar-bg: rgba(15, 23, 42, 0.92);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+            transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .theme-toggle-btn {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.08);
+            color: var(--primary-accent);
+        }
+
+        .site-settings-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .site-settings-btn:hover,
+        .site-settings-btn[aria-expanded="true"] {
+            transform: rotate(24deg) scale(1.08);
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* ─── زر القائمة (همبرغر) للهاتف ─── */
+        .nav-hamburger-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .nav-hamburger-btn:hover,
+        .nav-hamburger-btn[aria-expanded="true"] {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .nav-hamburger-btn i {
+            transition: transform 0.28s ease;
+        }
+
+        .nav-hamburger-btn[aria-expanded="true"] i {
+            transform: rotate(90deg);
+        }
+
+        /* ─── نافذة إعدادات ألوان الموقع ─── */
+        .color-settings-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.58);
+            backdrop-filter: blur(10px);
+        }
+
+        .color-settings-overlay.open {
+            display: flex;
+            animation: colorOverlayIn 0.22s ease;
+        }
+
+        @keyframes colorOverlayIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .color-settings-modal {
+            width: min(680px, 100%);
+            max-height: min(680px, 92vh);
+            overflow-y: auto;
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: 0 28px 80px rgba(15, 23, 42, 0.28);
+            animation: colorModalIn 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes colorModalIn {
+            from { opacity: 0; transform: translateY(16px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .color-settings-modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .color-settings-modal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.35rem;
+            font-weight: 900;
+        }
+
+        .color-settings-modal-title i {
+            color: var(--primary);
+        }
+
+        .color-settings-modal-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .close-color-settings {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .close-color-settings:hover {
+            background: var(--primary);
+            color: #ffffff;
+            transform: rotate(90deg);
+        }
+
+        .color-settings-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            justify-items: center;
+        }
+
+        .color-theme-option {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            padding: 4px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            border-radius: 50%;
+            color: var(--text-main);
+            cursor: pointer;
+            font: inherit;
+            transition: all 0.22s ease;
+        }
+
+        .color-theme-option:hover {
+            border-color: var(--theme-accent, var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.1);
+        }
+
+        .color-theme-option.active {
+            border-color: var(--theme-primary, var(--primary));
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primary, var(--primary)) 18%, transparent);
+        }
+
+        .color-theme-option.active::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #ffffff;
+            background: var(--theme-primary, var(--primary));
+            font-size: 0.78rem;
+            font-weight: 900;
+        }
+
+        .color-theme-preview {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(120deg, var(--theme-accent), var(--theme-primary));
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+        }
+
+        .color-settings-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .color-settings-current {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            list-style: none;
+            flex-wrap: nowrap;
+        }
+
+        .nav-links li {
+            flex-shrink: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.82rem;
+            transition: color 0.2s ease, background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .nav-links a i {
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        /* زر "تقدمي" الخاص */
+        .nav-progress-btn {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px !important;
+            background: var(--primary-light) !important;
+            color: var(--primary) !important;
+            border: 1.5px solid var(--primary-accent) !important;
+            border-radius: 50px !important;
+            font-weight: 700 !important;
+            font-size: 0.82rem !important;
+        }
+
+        .nav-progress-btn:hover {
+            background: var(--primary) !important;
+            color: #fff !important;
+            border-color: var(--primary) !important;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            color: white !important;
+            padding: 8px 18px !important;
+            border-radius: 50px;
+            font-weight: 700 !important;
+            font-size: 0.82rem !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+            transition: transform 0.2s, box-shadow 0.2s !important;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35);
+            color: white !important;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary)) !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 70px 0 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border: 1px solid #bae6fd;
+            box-shadow: 0 2px 10px rgba(56, 189, 248, 0.15);
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1.25;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 36px;
+            font-weight: 500;
+        }
+
+        /* Hero Media / Image Showcase */
+        .showcase-container {
+            position: relative;
+            max-width: 960px;
+            margin: 40px auto 0;
+        }
+
+        .image-card {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-glow), 0 10px 25px rgba(0, 0, 0, 0.06);
+            border: 4px solid #ffffff;
+            background: #ffffff;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+        }
+
+        .image-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(56, 189, 248, 0.3);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Floating Badges */
+        .float-badge {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0f2fe;
+            animation: float 4s ease-in-out infinite alternate;
+            z-index: 10;
+        }
+
+        .float-badge-1 {
+            top: -20px;
+            right: -25px;
+            animation-delay: 0s;
+        }
+
+        .float-badge-2 {
+            bottom: -20px;
+            left: -25px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-12px); }
+        }
+
+        .float-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: #e0f2fe;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .float-info h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0;
+            text-align: right;
+        }
+
+        .float-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+            text-align: right;
+        }
+
+        /* Pay CTA Center */
+        .hero-action {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .pay-main-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 800;
+            padding: 18px 64px;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-btns-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .browse-course-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #ffffff;
+            color: var(--primary);
+            font-size: 1.35rem;
+            font-weight: 800;
+            padding: 16px 42px;
+            border: 2px solid #bae6fd;
+            border-radius: 60px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .browse-course-btn:hover {
+            background: #f0f9ff;
+            border-color: var(--primary-accent);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(2, 132, 199, 0.2);
+            color: var(--primary-dark);
+        }
+
+        .pay-subtext {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .pay-subtext span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pay-subtext i {
+            color: #10b981;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            margin-top: 70px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 40px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Section Global */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 50px;
+        }
+
+        .section-tag {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 14px;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Features Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            padding: 32px 28px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: #bae6fd;
+            box-shadow: 0 15px 35px rgba(2, 132, 199, 0.12);
+        }
+
+        .feature-icon-wrapper {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 22px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            background: linear-gradient(180deg, #f0f7ff 0%, #e0f2fe 100%);
+            border-radius: 32px;
+            padding: 70px 24px;
+            margin: 40px 0;
+            border: 1px solid #bae6fd;
+        }
+
+        .pricing-card {
+            max-width: 540px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 44px;
+            box-shadow: 0 20px 45px rgba(2, 132, 199, 0.15);
+            border: 2px solid #bae6fd;
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            color: white;
+            padding: 6px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+
+        .pricing-header h3 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin-top: 10px;
+            color: #0f172a;
+        }
+
+        .pricing-price {
+            margin: 24px 0;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 1.3rem;
+            margin-left: 8px;
+        }
+
+        .new-price {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .currency {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: right;
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 1rem;
+        }
+
+        .pricing-features i {
+            color: #0284c7;
+            background: #e0f2fe;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 18px 0;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.35);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .pricing-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(2, 132, 199, 0.45);
+        }
+
+        .pricing-guarantee {
+            margin-top: 18px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* FAQ Accordion */
+        .faq-list {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .faq-item.active {
+            border-color: #bae6fd;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            user-select: none;
+        }
+
+        .faq-icon {
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            padding-bottom: 22px;
+            max-height: 300px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 40px 0 30px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-title {
+                font-size: 2.4rem;
+            }
+            .float-badge-1 {
+                top: -15px;
+                right: 0px;
+            }
+            .float-badge-2 {
+                bottom: -15px;
+                left: 0px;
+            }
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav-hamburger-btn {
+                display: flex;
+            }
+            .nav-links {
+                display: flex;
+                position: absolute;
+                top: calc(100% + 12px);
+                right: 0;
+                left: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 2px;
+                background: var(--navbar-bg);
+                border: 1px solid var(--border-color);
+                border-radius: 14px;
+                padding: 10px;
+                box-shadow: 0 16px 32px rgba(0,0,0,0.14);
+                backdrop-filter: blur(12px);
+                z-index: 200;
+                visibility: hidden;
+                opacity: 0;
+                transform: translateY(-14px) scaleY(0.96);
+                transform-origin: top center;
+                pointer-events: none;
+                transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s;
+            }
+            .nav-links.mobile-open {
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0) scaleY(1);
+                pointer-events: auto;
+            }
+            .nav-links li {
+                width: 100%;
+                opacity: 0;
+                transform: translateY(-8px);
+                transition: opacity 0.25s ease, transform 0.25s ease;
+            }
+            .nav-links.mobile-open li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .nav-links.mobile-open li:nth-child(1)  { transition-delay: 0.03s; }
+            .nav-links.mobile-open li:nth-child(2)  { transition-delay: 0.06s; }
+            .nav-links.mobile-open li:nth-child(3)  { transition-delay: 0.09s; }
+            .nav-links.mobile-open li:nth-child(4)  { transition-delay: 0.12s; }
+            .nav-links.mobile-open li:nth-child(5)  { transition-delay: 0.15s; }
+            .nav-links.mobile-open li:nth-child(6)  { transition-delay: 0.18s; }
+            .nav-links.mobile-open li:nth-child(7)  { transition-delay: 0.21s; }
+            .nav-links.mobile-open li:nth-child(8)  { transition-delay: 0.24s; }
+            .nav-links.mobile-open li:nth-child(9)  { transition-delay: 0.27s; }
+            .nav-links a {
+                width: 100%;
+                font-size: 0.95rem;
+                padding: 12px 14px;
+            }
+            .nav-progress-btn {
+                width: 100% !important;
+                justify-content: center;
+            }
+            .nav-btn {
+                justify-content: center;
+                text-align: center;
+            }
+            .hero-title {
+                font-size: 1.95rem;
+            }
+            .hero-desc {
+                font-size: 1.05rem;
+            }
+            .float-badge {
+                display: none;
+            }
+            .stats-section {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .pay-main-btn {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 1.25rem;
+            }
+            .pricing-card {
+                padding: 30px 20px;
+            }
+            .color-settings-modal {
+                padding: 22px 16px;
+                border-radius: 22px;
+            }
+            .color-settings-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .color-settings-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        /* ─── زر تواصل واتساب العائم ─── */
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 999;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #ffffff;
+            padding: 12px 22px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .floating-whatsapp i {
+            font-size: 1.45rem;
+        }
+        .floating-whatsapp:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 14px 30px rgba(37, 211, 102, 0.55);
+            color: #ffffff;
+        }
+
+        /* ─── زر الدعم الفني العائم (فوق الواتساب) ─── */
+        .floating-support {
+            position: fixed;
+            bottom: 90px;
+            left: 24px;
+            z-index: 999;
+            background: var(--site-primary-gradient, linear-gradient(135deg, #38bdf8, #0284c7));
+            color: #ffffff;
+            padding: 12px 22px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+        .floating-support i { font-size: 1.35rem; }
+        .floating-support:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 14px 30px rgba(2, 132, 199, 0.55);
+            color: #ffffff;
+        }
+        .floating-support .support-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        /* ─── نافذة شات الدعم المنبثقة ─── */
+        .support-chat-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            z-index: 1200;
+            align-items: flex-end;
+            justify-content: flex-start;
+            padding: 24px;
+        }
+        .support-chat-overlay.open { display: flex; }
+        .support-chat-window {
+            width: 100%;
+            max-width: 380px;
+            height: min(600px, 80vh);
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: inherit;
+        }
+        body.dark-mode .support-chat-window { background: #111827; color: #e5e7eb; }
+        .support-chat-header {
+            background: var(--site-primary-gradient, linear-gradient(135deg, #38bdf8, #0284c7));
+            color: #fff;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .support-chat-header h4 { margin: 0; font-size: 1rem; }
+        .support-chat-header .support-close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .support-chat-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        .support-conv-list {
+            width: 130px;
+            border-left: 1px solid #e5e7eb;
+            overflow-y: auto;
+            display: none;
+            flex-shrink: 0;
+        }
+        body.dark-mode .support-conv-list { border-color: #1f2937; }
+        .support-conv-list.show { display: block; }
+        .support-conv-item {
+            padding: 10px 8px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            font-size: 0.78rem;
+        }
+        body.dark-mode .support-conv-item { border-color: #1f2937; }
+        .support-conv-item.active { background: var(--primary-light, #e0f2fe); }
+        .support-conv-item .conv-name { font-weight: 700; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .support-conv-item .conv-preview { color: #94a3b8; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .support-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #f8fafc;
+        }
+        body.dark-mode .support-messages { background: #0b1220; }
+        .support-msg { max-width: 78%; padding: 9px 13px; border-radius: 14px; font-size: 0.88rem; line-height: 1.6; word-wrap: break-word; }
+        .support-msg-meta { display: block; font-size: 0.72rem; opacity: 0.6; margin-top: 3px; }
+        .support-msg.from-user { align-self: flex-start; background: #e2e8f0; color: #0f172a; border-bottom-left-radius: 4px; }
+        .support-msg.from-admin { align-self: flex-end; background: var(--primary, #0284c7); color: #fff; border-bottom-right-radius: 4px; }
+        body.dark-mode .support-msg.from-user { background: #1f2937; color: #e5e7eb; }
+        .support-empty-hint { text-align: center; color: #94a3b8; font-size: 0.85rem; margin-top: 20px; }
+        .support-chat-footer {
+            border-top: 1px solid #e5e7eb;
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+        }
+        body.dark-mode .support-chat-footer { border-color: #1f2937; }
+        .support-chat-footer textarea {
+            flex: 1;
+            resize: none;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 8px 10px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            height: 40px;
+        }
+        .support-chat-footer button {
+            background: var(--primary, #0284c7);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 0 16px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .support-guest-form { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+        .support-guest-form input {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-family: inherit;
+            font-size: 0.88rem;
+        }
+        .support-guest-form button {
+            background: var(--primary, #0284c7);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+    <script src="site-theme.js" defer></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <span>مونتاج AI</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#about"><i class="fa-solid fa-circle-info"></i> عن الكورس</a></li>
+                <li><a href="#curriculum"><i class="fa-solid fa-list-check"></i> المحاور</a></li>
+                <li><a href="course.html"><i class="fa-solid fa-circle-play" style="color: var(--primary);"></i> تصفح الكورس</a></li>
+                <li><a href="#faq"><i class="fa-solid fa-circle-question"></i> الأسئلة الشائعة</a></li>
+                <li><a href="https://wa.me/201096537675" target="_blank" rel="noopener noreferrer" style="color:#25D366;"><i class="fa-brands fa-whatsapp"></i> تواصل</a></li>
+                <li><a href="forum.html"><i class="fa-solid fa-comments"></i> المنتدى</a></li>
+                <li id="navLoginItem"><a href="auth.html" id="navLoginLink"><i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول</a></li>
+                <li id="navProgressItem" style="display:none;">
+                    <a href="dashboard.html" class="nav-progress-btn" id="navProgressLink">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>تقدمي</span>
+                    </a>
+                </li>
+                <li><a href="checkout.html" class="nav-btn"><i class="fa-solid fa-bolt"></i> ادفع الان</a></li>
+            </ul>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                <button type="button" class="site-settings-btn" id="siteSettingsBtn" onclick="openColorSettings()" aria-label="فتح إعدادات ألوان الموقع" aria-expanded="false" title="إعدادات ألوان الموقع">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <button type="button" class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+                <button type="button" class="nav-hamburger-btn" id="navHamburgerBtn" onclick="toggleMobileMenu()" aria-label="فتح القائمة" aria-expanded="false" title="القائمة">
+                    <i class="fa-solid fa-bars" id="navHamburgerIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Hero -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <i class="fa-solid fa-bolt"></i>
+                <span>الكورس الأقوى لعام 2026 في صناعة المحتوى</span>
+            </div>
+
+            <h1 class="hero-title">
+                احترف المونتاج وصناعة الفيديو <br>
+                <span>بأحدث أدوات الذكاء الاصطناعي</span>
+            </h1>
+
+            <p class="hero-desc">
+                تعلم كيف تنتج فيديوهات سينمائية واحترافية وتختصر 80% من وقت المونتاج باستخدام أحدث تقنيات الـ AI خطوة بخطوة من الصفر حتى الاحتراف.
+            </p>
+
+            <!-- Video Editor Showcase -->
+            <div class="showcase-container">
+                <div class="float-badge float-badge-1">
+                    <div class="float-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="float-info">
+                        <h4>توفير 80% من الوقت</h4>
+                        <p>تقطيع وتفريغ آلي ذكي</p>
+                    </div>
+                </div>
+
+                <div class="image-card">
+                    <img src="editor.jpg" alt="واجهة برنامج مونتاج بالذكاء الاصطناعي">
+                </div>
+
+                <div class="float-badge float-badge-2">
+                    <div class="float-icon"><i class="fa-solid fa-sparkles"></i></div>
+                    <div class="float-info">
+                        <h4>أدوات AI حصرية</h4>
+                        <p>تحسين صوت، ألوان، وتأثيرات</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Pay Button Action -->
+            <div class="hero-action">
+                <div class="hero-btns-group">
+                    <a href="checkout.html" class="pay-main-btn">
+                        <i class="fa-solid fa-credit-card"></i>
+                        <span>ادفع الان - 300 جنيه فقط</span>
+                    </a>
+                    <a href="course.html" class="browse-course-btn">
+                        <i class="fa-solid fa-circle-play"></i>
+                        <span>تصفح الكورس</span>
+                    </a>
+                    <a href="dashboard.html" class="browse-course-btn" id="heroProgressBtn" style="display:none; background:linear-gradient(135deg, var(--primary-accent), var(--primary)); color:#fff; border-color:transparent; box-shadow:0 4px 14px rgba(2,132,199,0.3);">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>تقدمي في الكورس</span>
+                    </a>
+                </div>
+                <div class="pay-subtext">
+                    <span><i class="fa-solid fa-circle-check"></i> وصول فوري للمحتوى</span>
+                    <span><i class="fa-solid fa-gift" style="color: var(--primary);"></i> الحلقة الأولى مجانية للمعاينة</span>
+                    <span><i class="fa-solid fa-circle-check"></i> ضمان استرداد 14 يوم</span>
+                </div>
+            </div>
+
+
+            <!-- Stats Bar -->
+            <div class="stats-section">
+                <div class="stat-item">
+                    <h3>+1,500</h3>
+                    <p>طالب مشترك</p>
+                </div>
+                <div class="stat-item">
+                    <h3>+45</h3>
+                    <p>درس تدريبي عملي</p>
+                </div>
+                <div class="stat-item">
+                    <h3>4.9 / 5</h3>
+                    <p>تقييم الطلاب</p>
+                </div>
+                <div class="stat-item">
+                    <h3>مدى الحياة</h3>
+                    <p>صلاحية الوصول والتحديثات</p>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- What You'll Learn -->
+    <section class="section" id="curriculum">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">محاور الكورس</span>
+                <h2 class="section-title">ماذا ستتعلم داخل الكورس؟</h2>
+                <p class="section-desc">محتوى تطبيقي وعملي 100% يغطي أهم وأقوى أدوات الذكاء الاصطناعي المستخدمة عالمياً.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-film"></i>
+                    </div>
+                    <h3>توليد وتوسيع الفيديوهات بـ AI</h3>
+                    <p>صناعة مقاطع احترافية B-roll وتوسيع المشاهد بجودة سينمائية فائقة من مجرد نصوص وأفكار.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-scissors"></i>
+                    </div>
+                    <h3>التقطيع التلقائي والتفريغ الصوتي</h3>
+                    <p>إزالة الوقفات والكلمات المكررة آلياً، وإنشاء نصوص كابشنز (Captions) متحركة جذابة بضغطة زر.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-microphone-lines"></i>
+                    </div>
+                    <h3>هندسة وعزل الصوت الذكي</h3>
+                    <p>تنقية الصوت كأنه مسجل في استوديو احترافي، توليد موسيقى تصويرية ومؤثرات صوتية حصرية.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3>تصحيح الألوان السينمائي الآلي</h3>
+                    <p>مطابقة درجات الألوان بين اللقطات بذكاء وتطبيق أنماط هوليوود السينمائية في ثوانٍ.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <h3>صناعة أفاتار واستنساخ الصوت</h3>
+                    <p>إنشاء مقاطع فيديو تقدمها شخصيات افتراضية واقعية جداً واستنساخ صوتك بدقة باللغة العربية.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3>تسويق مهاراتك والربح من العمل الحر</h3>
+                    <p>كيف تحصل على أول عميل يدفع لك بالدولار، وطريقة تسعير خدمات المونتاج السريع بذكاء.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Card Section -->
+    <section class="container" id="pricing">
+        <div class="pricing-section">
+            <div class="section-header" style="margin-bottom: 30px;">
+                <span class="section-tag">استثمارك في مستقبلك</span>
+                <h2 class="section-title">اشترك اليوم بسعر العرض الخاص</h2>
+                <p class="section-desc">عرض لفترة محدودة بخصم 60% على الباقة الشاملة لكورس المونتاج بـ AI</p>
+            </div>
+
+            <div class="pricing-card">
+                <div class="pricing-badge">خصم 60% لفترة محدودة 🔥</div>
+                <div class="pricing-header">
+                    <h3>الباقة الكاملة للمحترفين</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">وصول فوري وشامل لجميع المحتويات والأدوات</p>
+                </div>
+
+                <div class="pricing-price">
+                    <span class="old-price">750 ج.م</span>
+                    <span class="new-price">300</span>
+                    <span class="currency">جنيه مصري فقط</span>
+                </div>
+
+                <ul class="pricing-features">
+                    <li><i class="fa-solid fa-check"></i> +45 درس فيديو بجودة عالية 4K مسجلة بدقة</li>
+                    <li><i class="fa-solid fa-check"></i> مكتبة برومبتس وأدوات ذكاء اصطناعي جاهزة</li>
+                    <li><i class="fa-solid fa-check"></i> مجتمع خاص للطلاب للدعم الفني والإجابة على الأسئلة</li>
+                    <li><i class="fa-solid fa-check"></i> تحديثات مستمرة تضاف للكورس مجاناً</li>
+                    <li><i class="fa-solid fa-check"></i> شهادة إتمام إلكترونية قابلة للمشاركة</li>
+                    <li><i class="fa-solid fa-check"></i> ضمان استرجاع كامل المبلغ خلال 14 يوم</li>
+                </ul>
+
+                <a href="checkout.html" class="pricing-btn">
+                    ادفع الان (300 ج.م)
+                </a>
+
+                <a href="course.html" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: var(--primary); font-weight: 700; text-decoration: none; margin-top: 14px; font-size: 1rem; transition: color 0.2s;">
+                    <i class="fa-solid fa-circle-play"></i> تصفح الكورس وشاهد الحلقة الأولى مجاناً
+                </a>
+
+                <div class="pricing-guarantee">
+                    <i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i>
+                    <span>دفع آمن وفوري عبر فودافون كاش، أورنج كاش، واتصالات كاش</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">إجابات سريعة</span>
+                <h2 class="section-title">الأسئلة الشائعة</h2>
+                <p class="section-desc">كل ما تحتاج معرفته قبل الانضمام إلى الكورس</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item active">
+                    <div class="faq-question">
+                        <span>هل أحتاج إلى جهاز كمبيوتر قوي بمواصفات خارقة؟</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        لا على الإطلاق! معظم أدوات الذكاء الاصطناعي التي سنشرحها تعمل سحابياً عبر المتصفح دون استهلاك لموارد جهازك، كما سنعلمك كيفية استغلال أدوات خفيفة تعمل بسلاسة على أي جهاز عادي أو حتى هاتف ذكي.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>ليس لدي خبرة سابقة في المونتاج، هل الكورس مناسب لي؟</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        نعم بالتأكيد! تم تصميم الكورس ليبدأ معك من الصفر تماماً، ونركز على تمكينك من استخدام أدوات الذكاء الاصطناعي لإنتاج أعمال احترافية تتفوق على المحترفين حتى لو لم تكن تملك أي خلفية سابقة.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>كيف ومتى يمكنني الوصول لمحتوى الكورس بعد الدفع؟</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        الوصول فوري وتلقائي. بمجرد إتمام الدفع، ستصلك رسالة عبر بريدك الإلكتروني تحتوي على بيانات الدخول المباشرة لمنصة الكورس، وستتمكن من مشاهدة الدروس مدى الحياة ومن أي جهاز.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>ماذا لو لم يعجبني الكورس؟ هل هناك ضمان استرداد؟</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        نحن واثقون تماماً من جودة الكورس، ولهذا نقدم لك ضمان استرداد كامل لأموالك لمدة 14 يوماً بدون أي أسئلة أو تعقيد.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- إعدادات ألوان الموقع -->
+    <div class="color-settings-overlay" id="colorSettingsOverlay" onclick="handleColorSettingsOverlayClick(event)" role="dialog" aria-modal="true" aria-labelledby="colorSettingsTitle">
+        <div class="color-settings-modal">
+            <div class="color-settings-modal-header">
+                <div>
+                    <h2 class="color-settings-modal-title" id="colorSettingsTitle">
+                        <i class="fa-solid fa-palette"></i>
+                        <span>تخصيص ألوان الموقع</span>
+                    </h2>
+                    <p class="color-settings-modal-subtitle">اختر الهوية اللونية التي تناسبك، وسيتم تطبيقها فوراً على جميع عناصر الموقع.</p>
+                </div>
+                <button type="button" class="close-color-settings" onclick="closeColorSettings()" aria-label="إغلاق إعدادات الألوان">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="color-settings-grid" id="colorSettingsGrid"></div>
+
+            <div class="color-settings-footer">
+                <span>يمكنك تغيير اللون في أي وقت من أي جهاز يستخدم نفس المتصفح.</span>
+                <span class="color-settings-current" id="colorSettingsCurrent">اللون الحالي: أزرق محيطي</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>أكاديمية مونتاج AI</span>
+            </div>
+            <p class="footer-copy">
+                جميع الحقوق محفوظة © 2026 - كورس احتراف المونتاج بالذكاء الاصطناعي • 
+                <a href="https://wa.me/201096537675" target="_blank" rel="noopener noreferrer" style="color: #25D366; text-decoration: none; font-weight: 700; margin-right: 6px;">
+                    <i class="fa-brands fa-whatsapp"></i> تواصل عبر واتساب
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Floating Support Chat Button -->
+    <button type="button" class="floating-support" title="الدعم الفني" onclick="openSupportChat()" style="position:fixed;">
+        <i class="fa-solid fa-headset"></i>
+        <span>الدعم الفني</span>
+        <span class="support-badge" id="supportUnreadBadge"></span>
+    </button>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/201096537675" target="_blank" rel="noopener noreferrer" class="floating-whatsapp" title="تواصل معنا عبر واتساب">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>تواصل معنا</span>
+    </a>
+
+    <!-- Support Chat Modal -->
+    <div class="support-chat-overlay" id="supportChatOverlay" onclick="handleSupportOverlayClick(event)">
+        <div class="support-chat-window" onclick="event.stopPropagation()">
+            <div class="support-chat-header">
+                <h4 id="supportHeaderTitle"><i class="fa-solid fa-headset"></i> الدعم الفني</h4>
+                <button type="button" class="support-close-btn" onclick="closeSupportChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="support-chat-body">
+                <div class="support-conv-list" id="supportConvList"></div>
+                <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                    <div class="support-messages" id="supportMessages"></div>
+                    <div class="support-guest-form" id="supportGuestForm" style="display:none;">
+                        <input type="text" id="supportGuestName" placeholder="الاسم بالكامل">
+                        <input type="email" id="supportGuestEmail" placeholder="البريد الإلكتروني">
+                        <button type="button" onclick="startSupportGuestChat()">بدء المحادثة</button>
+                    </div>
+                    <div class="support-chat-footer" id="supportChatFooter" style="display:none;">
+                        <textarea id="supportMsgInput" placeholder="اكتب رسالتك..." onkeydown="handleSupportInputKey(event)"></textarea>
+                        <button type="button" onclick="sendSupportMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Script -->
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+                
+                // Toggle clicked item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/201096537675" target="_blank" rel="noopener noreferrer" class="floating-whatsapp">
+        <i class="fa-brands fa-whatsapp"></i>
+        تواصل معنا
+    </a>
+
+    <script>
+        // قائمة الهاتف (Hamburger Menu)
+        function toggleMobileMenu(forceClose) {
+            const menu = document.querySelector('.nav-links');
+            const btn = document.getElementById('navHamburgerBtn');
+            const icon = document.getElementById('navHamburgerIcon');
+            if (!menu || !btn) return;
+            const shouldOpen = forceClose === true ? false : !menu.classList.contains('mobile-open');
+            menu.classList.toggle('mobile-open', shouldOpen);
+            btn.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+            if (icon) icon.className = shouldOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const menu = document.querySelector('.nav-links');
+            if (!menu) return;
+            // إغلاق القائمة عند الضغط على أي رابط داخلها
+            menu.addEventListener('click', (e) => {
+                if (e.target.closest('a')) toggleMobileMenu(true);
+            });
+            // إغلاق القائمة عند الضغط خارجها
+            document.addEventListener('click', (e) => {
+                const btn = document.getElementById('navHamburgerBtn');
+                if (!menu.classList.contains('mobile-open')) return;
+                if (!menu.contains(e.target) && !(btn && btn.contains(e.target))) {
+                    toggleMobileMenu(true);
+                }
+            });
+            // إغلاق القائمة تلقائياً عند تكبير الشاشة لحجم سطح المكتب
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 650) toggleMobileMenu(true);
+            });
+        });
+
+        // إعادة ضبط أي واجهات مفتوحة (القائمة/نافذة الألوان) كل ما الصفحة تظهر من جديد
+        // (يحل مشكلة رجوع المتصفح Back اللي بيعرض الصفحة من الكاش بحالتها القديمة فتبان بايظة أو مقفولة)
+        function resetTransientUIState() {
+            toggleMobileMenu(true);
+            if (typeof closeColorSettings === 'function') closeColorSettings();
+            document.body.style.overflow = '';
+        }
+        window.addEventListener('pageshow', resetTransientUIState);
+        document.addEventListener('DOMContentLoaded', resetTransientUIState);
+
+        // Dark Mode
+        function initTheme() {
+            if (localStorage.getItem('site_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const icon = document.getElementById('themeIcon');
+                if (icon) icon.classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            const icon = document.getElementById('themeIcon');
+            if (icon) icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        // ─── إظهار حالة تسجيل الدخول في القائمة العلوية ───
+        function getCurrentUser() {
+            try {
+                return JSON.parse(sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || 'null');
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function initNavAuthState() {
+            const link = document.getElementById('navLoginLink');
+            if (!link) return;
+            const user = getCurrentUser();
+
+            if (user && user.email) {
+                // تغيير رابط تسجيل الدخول لاسم المستخدم
+                link.href = 'dashboard.html';
+                const displayName = (user.name || user.email).split(' ')[0]; // الاسم الأول فقط لتوفير مساحة
+                link.innerHTML = '<i class="fa-solid fa-circle-user" style="color:var(--primary);"></i> ' + displayName;
+
+                // إضافة زر تسجيل الخروج
+                if (!document.getElementById('navLogoutBtn')) {
+                    const logoutLi = document.createElement('li');
+                    const logoutBtn = document.createElement('a');
+                    logoutBtn.href = '#';
+                    logoutBtn.id = 'navLogoutBtn';
+                    logoutBtn.title = 'تسجيل الخروج';
+                    logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i>';
+                    logoutBtn.style.cssText = 'padding:6px 8px;border-radius:8px;color:#ef4444;';
+                    logoutBtn.onclick = function (e) {
+                        e.preventDefault();
+                        localStorage.removeItem('currentUser');
+                        sessionStorage.removeItem('currentUser');
+                        window.location.reload();
+                    };
+                    logoutLi.appendChild(logoutBtn);
+                    link.closest('li').insertAdjacentElement('afterend', logoutLi);
+                }
+
+                // إظهار زر "تقدمي"
+                const progressItem = document.getElementById('navProgressItem');
+                const progressLink = document.getElementById('navProgressLink');
+                if (progressItem) progressItem.style.display = 'list-item';
+                if (progressLink) progressLink.style.display = 'inline-flex';
+
+            } else {
+                link.href = 'auth.html';
+                link.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول';
+                const existingLogout = document.getElementById('navLogoutBtn');
+                if (existingLogout) existingLogout.closest('li')?.remove();
+                // إخفاء زر "تقدمي"
+                const progressItem = document.getElementById('navProgressItem');
+                if (progressItem) progressItem.style.display = 'none';
+            }
+        }
+
+        // ─── إعدادات الألوان من الصفحة الرئيسية ───
+        function initColorSettings() {
+            if (!window.SITE_COLOR_PALETTES) {
+                document.addEventListener('DOMContentLoaded', initColorSettings, { once: true });
+                return;
+            }
+            renderColorSettings();
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') closeColorSettings();
+            });
+        }
+
+        function renderColorSettings() {
+            const grid = document.getElementById('colorSettingsGrid');
+            if (!grid || !window.SITE_COLOR_PALETTES) return;
+
+            const current = typeof getSiteColorTheme === 'function'
+                ? getSiteColorTheme()
+                : (localStorage.getItem('site_color_theme') || 'blue');
+            const order = window.SITE_COLOR_PALETTE_ORDER || Object.keys(window.SITE_COLOR_PALETTES);
+
+            grid.innerHTML = order.map((key) => {
+                const palette = window.SITE_COLOR_PALETTES[key];
+                const isActive = key === current;
+                return `
+                    <button type="button"
+                        class="color-theme-option${isActive ? ' active' : ''}"
+                        data-color="${key}"
+                        style="--theme-primary:${palette.primary};--theme-accent:${palette.accent};"
+                        onclick="selectHomepageColor('${key}')"
+                        title="${palette.label || key}"
+                        aria-label="اختيار لون ${palette.label || key}"
+                        aria-pressed="${isActive ? 'true' : 'false'}">
+                        <span class="color-theme-preview"></span>
+                    </button>
+                `;
+            }).join('');
+
+            const currentLabel = window.SITE_COLOR_PALETTES[current]?.label || 'أزرق محيطي';
+            const currentEl = document.getElementById('colorSettingsCurrent');
+            if (currentEl) currentEl.textContent = `اللون الحالي: ${currentLabel}`;
+        }
+
+        function openColorSettings() {
+            renderColorSettings();
+            const overlay = document.getElementById('colorSettingsOverlay');
+            const button = document.getElementById('siteSettingsBtn');
+            if (overlay) overlay.classList.add('open');
+            if (button) button.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeColorSettings() {
+            const overlay = document.getElementById('colorSettingsOverlay');
+            const button = document.getElementById('siteSettingsBtn');
+            if (overlay) overlay.classList.remove('open');
+            if (button) button.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        function handleColorSettingsOverlayClick(event) {
+            if (event.target === event.currentTarget) closeColorSettings();
+        }
+
+        function selectHomepageColor(colorName) {
+            if (!window.SITE_COLOR_PALETTES || !window.SITE_COLOR_PALETTES[colorName]) return;
+            localStorage.setItem('site_color_theme', colorName);
+            if (typeof window.applySitePalette === 'function') window.applySitePalette();
+            renderColorSettings();
+        }
+
+        initColorSettings();
+
+
+
+        initTheme();
+        initNavAuthState();
+
+        // ─── إظهار زر "تقدمي في الكورس" في الهيرو للمستخدم المسجل ───
+        (function () {
+            try {
+                const user = JSON.parse(sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser') || 'null');
+                if (user && user.email) {
+                    const btn = document.getElementById('heroProgressBtn');
+                    if (btn) btn.style.display = 'inline-flex';
+                }
+            } catch (e) {}
+        })();
+
+        // ═══════════════════════════════════════════════
+        // شات الدعم الفني — يعمل عبر JSONBin (بدون PHP)
+        // ═══════════════════════════════════════════════
+        const SUPPORT_JSONBIN_KEY   = '$2a$10$CJ/.nMpTdVlUEUkOFFZiNeA9X05G0xPvN/yy2m6yT.8gH.vxcu7kO';
+        const SUPPORT_JSONBIN_BASE  = 'https://api.jsonbin.io/v3';
+        const SUPPORT_JSONBIN_BIN   = '6aa0b53aac6210605ab5d86b'; // نفس البن الموجود
+        const SUPPORT_ADMIN_EMAIL   = 'epicmohammed11@gmail.com';
+        const SUPPORT_BIN_NAME      = 'support_messages'; // مفتاح مستقل داخل البن
+
+        let supportPollTimer   = null;
+        let supportIsAdmin     = false;
+        let supportMe          = null;   // { name, email }
+        let supportActiveConv  = null;   // email صاحب المحادثة المفتوحة
+
+        // ─── قراءة وكتابة JSONBin ───
+        async function supportReadBin() {
+            const res = await fetch(`${SUPPORT_JSONBIN_BASE}/b/${SUPPORT_JSONBIN_BIN}/latest`, {
+                headers: { 'X-Master-Key': SUPPORT_JSONBIN_KEY },
+                cache: 'no-store'
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'تعذر الاتصال');
+            const record = data.record || {};
+            return Array.isArray(record[SUPPORT_BIN_NAME]) ? record[SUPPORT_BIN_NAME] : [];
+        }
+
+        async function supportWriteBin(messages) {
+            // نقرأ البن الكامل أولاً عشان لا نمسح بيانات المنتدى
+            const res0 = await fetch(`${SUPPORT_JSONBIN_BASE}/b/${SUPPORT_JSONBIN_BIN}/latest`, {
+                headers: { 'X-Master-Key': SUPPORT_JSONBIN_KEY },
+                cache: 'no-store'
+            });
+            const existing = res0.ok ? ((await res0.json()).record || {}) : {};
+            existing[SUPPORT_BIN_NAME] = messages;
+            const res = await fetch(`${SUPPORT_JSONBIN_BASE}/b/${SUPPORT_JSONBIN_BIN}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': SUPPORT_JSONBIN_KEY },
+                body: JSON.stringify(existing)
+            });
+            if (!res.ok) { const d = await res.json(); throw new Error(d.message || 'تعذر الحفظ'); }
+        }
+
+        // ─── هوية المستخدم ───
+        function supportIdentity() {
+            const u = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+            if (u && u.email) return { name: u.name || u.email, email: u.email };
+            try {
+                const saved = JSON.parse(localStorage.getItem('supportGuestIdentity') || 'null');
+                if (saved && saved.email) return saved;
+            } catch (e) {}
+            return null;
+        }
+
+        function convIdFromEmail(email) { return (email || '').toLowerCase().trim(); }
+
+        // ─── فتح / إغلاق الشات ───
+        function openSupportChat() {
+            document.getElementById('supportChatOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            supportMe = supportIdentity();
+
+            if (!supportMe) {
+                document.getElementById('supportMessages').innerHTML = '<p class="support-empty-hint">أدخل بياناتك للبدء 👋</p>';
+                document.getElementById('supportChatFooter').style.display = 'none';
+                document.getElementById('supportGuestForm').style.display = 'flex';
+                return;
+            }
+
+            document.getElementById('supportGuestForm').style.display = 'none';
+            supportIsAdmin = supportMe.email.toLowerCase() === SUPPORT_ADMIN_EMAIL.toLowerCase();
+
+            if (supportIsAdmin) {
+                document.getElementById('supportHeaderTitle').innerHTML = '<i class="fa-solid fa-headset"></i> صندوق محادثات الدعم';
+                document.getElementById('supportConvList').classList.add('show');
+                loadSupportConversations();
+            } else {
+                document.getElementById('supportHeaderTitle').innerHTML = '<i class="fa-solid fa-headset"></i> الدعم الفني';
+                document.getElementById('supportConvList').classList.remove('show');
+                document.getElementById('supportChatFooter').style.display = 'flex';
+                supportActiveConv = supportMe.email;
+                loadSupportThread(supportActiveConv);
+            }
+
+            if (supportPollTimer) clearInterval(supportPollTimer);
+            supportPollTimer = setInterval(() => {
+                if (supportIsAdmin) {
+                    loadSupportConversations(true);
+                    if (supportActiveConv) loadSupportThread(supportActiveConv, true);
+                } else if (supportActiveConv) {
+                    loadSupportThread(supportActiveConv, true);
+                }
+            }, 5000);
+        }
+
+        function closeSupportChat() {
+            document.getElementById('supportChatOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+            if (supportPollTimer) { clearInterval(supportPollTimer); supportPollTimer = null; }
+        }
+
+        function handleSupportOverlayClick(e) {
+            if (e.target === e.currentTarget) closeSupportChat();
+        }
+
+        function startSupportGuestChat() {
+            const name  = document.getElementById('supportGuestName').value.trim();
+            const email = document.getElementById('supportGuestEmail').value.trim();
+            if (!name || !email || !email.includes('@')) {
+                alert('يرجى إدخال الاسم والبريد الإلكتروني بشكل صحيح');
+                return;
+            }
+            supportMe = { name, email };
+            localStorage.setItem('supportGuestIdentity', JSON.stringify(supportMe));
+            document.getElementById('supportGuestForm').style.display = 'none';
+            document.getElementById('supportChatFooter').style.display = 'flex';
+            supportIsAdmin     = email.toLowerCase() === SUPPORT_ADMIN_EMAIL.toLowerCase();
+            supportActiveConv  = email;
+            loadSupportThread(supportActiveConv);
+            if (supportPollTimer) clearInterval(supportPollTimer);
+            supportPollTimer = setInterval(() => loadSupportThread(supportActiveConv, true), 5000);
+        }
+
+        // ─── تحميل قائمة المحادثات (أدمن) ───
+        async function loadSupportConversations(silent) {
+            const listEl = document.getElementById('supportConvList');
+            if (!silent) listEl.innerHTML = '<p class="support-empty-hint">⏳ جاري التحميل...</p>';
+            let all;
+            try { all = await supportReadBin(); }
+            catch (e) { listEl.innerHTML = '<p class="support-empty-hint">❌ تعذر الاتصال</p>'; return; }
+
+            // استخراج آخر رسالة لكل محادثة
+            const convMap = {};
+            for (const m of all) {
+                const cid = m.conv_id || '';
+                if (!cid) continue;
+                if (!convMap[cid] || m.id > convMap[cid].last_id) {
+                    convMap[cid] = { conv_id: cid, name: m.user_name || cid,
+                        email: m.user_email || cid, last_id: m.id,
+                        last_text: m.text, last_sender: m.sender };
+                }
+            }
+            const list = Object.values(convMap).sort((a, b) => b.last_id - a.last_id);
+
+            listEl.innerHTML = list.map(c => `
+                <div class="support-conv-item${convIdFromEmail(c.conv_id) === convIdFromEmail(supportActiveConv) ? ' active' : ''}"
+                     onclick="openSupportConversation('${escapeSupportAttr(c.email)}', '${escapeSupportAttr(c.name)}')">
+                    <span class="conv-name">${escapeSupportHtml(c.name || c.email)}</span>
+                    <span class="conv-preview">${escapeSupportHtml((c.last_sender === 'admin' ? 'أنت: ' : '') + (c.last_text || ''))}</span>
+                </div>
+            `).join('') || '<p class="support-empty-hint">لا توجد محادثات بعد</p>';
+
+            if (!supportActiveConv && list.length && !silent) {
+                openSupportConversation(list[0].email, list[0].name);
+            }
+        }
+
+        function openSupportConversation(email, name) {
+            supportActiveConv = email;
+            document.getElementById('supportChatFooter').style.display = 'flex';
+            loadSupportThread(email);
+            loadSupportConversations(true);
+        }
+
+        // ─── تحميل رسائل محادثة ───
+        async function loadSupportThread(convEmail, silent) {
+            const msgEl = document.getElementById('supportMessages');
+            if (!silent) msgEl.innerHTML = '<p class="support-empty-hint">⏳ جاري تحميل المحادثة...</p>';
+            let all;
+            try { all = await supportReadBin(); }
+            catch (e) {
+                if (!silent) msgEl.innerHTML = '<p class="support-empty-hint">❌ تعذر الاتصال بالخادم</p>';
+                return;
+            }
+            const cid      = convIdFromEmail(convEmail);
+            const isAdmin  = supportMe && supportMe.email.toLowerCase() === SUPPORT_ADMIN_EMAIL.toLowerCase();
+            const myId     = supportMe ? convIdFromEmail(supportMe.email) : '';
+            const thread   = all
+                .filter(m => m.conv_id === cid && (isAdmin || m.conv_id === myId))
+                .sort((a, b) => a.id - b.id);
+            renderSupportMessages(thread);
+        }
+
+        function renderSupportMessages(messages) {
+            const el = document.getElementById('supportMessages');
+            const wasAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 30;
+            if (!messages.length) {
+                el.innerHTML = '<p class="support-empty-hint">اكتب رسالتك وسيتم الرد عليك في أقرب وقت 👋</p>';
+                return;
+            }
+            el.innerHTML = messages.map(m => `
+                <div class="support-msg ${m.sender === 'admin' ? 'from-admin' : 'from-user'}">
+                    ${escapeSupportHtml(m.text)}
+                    <span class="support-msg-meta">${m.sender === 'admin' ? 'فريق الدعم' : escapeSupportHtml(m.name || '')}</span>
+                </div>
+            `).join('');
+            if (wasAtBottom || el.dataset.justSent === '1') {
+                el.scrollTop = el.scrollHeight;
+                el.dataset.justSent = '0';
+            }
+        }
+
+        function handleSupportInputKey(e) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendSupportMessage(); }
+        }
+
+        // ─── إرسال رسالة ───
+        async function sendSupportMessage() {
+            const input = document.getElementById('supportMsgInput');
+            const text  = input.value.trim();
+            if (!text || !supportMe || !supportActiveConv) return;
+            input.value = '';
+            document.getElementById('supportMessages').dataset.justSent = '1';
+
+            let all;
+            try { all = await supportReadBin(); }
+            catch (e) { alert('❌ تعذر الاتصال بالخادم'); return; }
+
+            const newId = all.length ? Math.max(...all.map(m => m.id || 0)) + 1 : 1;
+            const isAdmin = supportIsAdmin;
+            const message = {
+                id:         newId,
+                conv_id:    convIdFromEmail(supportActiveConv),
+                user_name:  isAdmin
+                    ? (document.querySelector('#supportConvList .support-conv-item.active .conv-name')?.textContent || supportActiveConv)
+                    : supportMe.name,
+                user_email: supportActiveConv,
+                sender:     isAdmin ? 'admin' : 'user',
+                name:       isAdmin ? 'فريق الدعم' : supportMe.name,
+                text:       text.slice(0, 2000),
+                timestamp:  Date.now()
+            };
+            all.push(message);
+
+            try { await supportWriteBin(all); }
+            catch (e) { alert('❌ تعذر إرسال الرسالة، حاول مرة أخرى'); return; }
+
+            loadSupportThread(supportActiveConv, true);
+            if (isAdmin) loadSupportConversations(true);
+        }
+
+        function escapeSupportHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str == null ? '' : String(str);
+            return d.innerHTML;
+        }
+        function escapeSupportAttr(str) {
+            return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>
