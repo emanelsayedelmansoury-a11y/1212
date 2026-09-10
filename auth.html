@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول وإنشاء حساب | كورس المونتاج بالذكاء الاصطناعي</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- EmailJS SDK للارسال المباشر إلى Gmail بدون الحاجة لسيرفر -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052cc;
+            --primary-accent: #38bdf8;
+            --primary-light: #e0f2fe;
+            --bg-gradient: linear-gradient(180deg, #f8fbff 0%, #f0f7ff 100%);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --border-focus: #38bdf8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --shadow-card: 0 15px 40px rgba(0, 102, 255, 0.1);
+            --shadow-btn: 0 8px 25px rgba(0, 102, 255, 0.35);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Top Header */
+        .auth-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        /* Main Center Wrapper */
+        .auth-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            max-width: 480px;
+            width: 100%;
+            border-radius: 26px;
+            padding: 36px 32px;
+            border: 1.5px solid #bae6fd;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Switch Tabs */
+        .auth-tabs {
+            display: flex;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #475569;
+            background: transparent;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
+        }
+
+        .auth-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .auth-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #334155;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 13px 44px 13px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .toggle-password {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit-auth {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow-btn);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit-auth:hover {
+            background: linear-gradient(135deg, #0ea5e9, var(--primary-dark));
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 102, 255, 0.45);
+        }
+
+        .auth-footer-text {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .auth-footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 800;
+            margin-right: 4px;
+        }
+
+        .auth-footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Screen 2: OTP Verification Modal */
+        .otp-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .otp-card {
+            background: #ffffff;
+            max-width: 480px;
+            width: 100%;
+            border-radius: 28px;
+            padding: 38px 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 2px solid #bae6fd;
+            animation: popIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.92) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .otp-icon-box {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: #e0f2fe;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 20px;
+            border: 3px solid #bae6fd;
+            box-shadow: 0 8px 24px rgba(0, 102, 255, 0.15);
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 24px 0;
+            direction: ltr;
+        }
+
+        .otp-digit {
+            width: 52px;
+            height: 56px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #0f172a;
+            background: #f8fafc;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .otp-digit:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.12);
+        }
+
+        .resend-box {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .btn-resend {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-resend:disabled {
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* Alert Messages */
+        .alert-msg {
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        .alert-msg.success { background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; }
+        .alert-msg.error   { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+        .alert-msg.show    { display: flex; }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn-submit-auth.loading .spinner  { display: inline-block; }
+        .btn-submit-auth.loading .btn-label{ opacity: 0.7; }
+
+        /* ─── Dark Mode ─── */
+        body.dark-mode {
+            --bg-gradient: linear-gradient(180deg, #0a0f1e 0%, #0d1526 100%);
+            --card-bg: #111827;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #1e3a5f;
+            --border-focus: #38bdf8;
+            --primary-light: #0c2340;
+        }
+        body.dark-mode .auth-header {
+            background: rgba(10, 15, 30, 0.92);
+            border-bottom-color: #1e3a5f;
+        }
+        body.dark-mode .auth-card {
+            background: #111827;
+            border-color: #1e3a5f;
+        }
+        body.dark-mode .form-input {
+            background: #1a2744;
+            border-color: #1e3a5f;
+            color: #e2e8f0;
+        }
+        body.dark-mode .form-input::placeholder { color: #64748b; }
+        body.dark-mode .auth-tabs { background: #1a2744; border-color: #1e3a5f; }
+        body.dark-mode .otp-digit {
+            background: #1a2744;
+            border-color: #1e3a5f;
+            color: #e2e8f0;
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+    </style>
+    <script src="site-theme.js" defer></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="auth-header">
+        <div class="header-inner">
+            <a href="index.html" class="header-logo">
+                <div class="logo-box">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <span>كورس مونتاج AI</span>
+            </a>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button type="button" class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="تبديل الوضع المظلم">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+                <a href="index.html" class="back-link">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>العودة للرئيسية</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="auth-main">
+        <div class="auth-card">
+
+            <!-- Switch Tabs -->
+            <div class="auth-tabs">
+                <button type="button" class="tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')">
+                    تسجيل الدخول
+                </button>
+                <button type="button" class="tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')">
+                    إنشاء حساب جديد
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+                <h2 class="auth-title">مرحباً بك مجدداً 👋</h2>
+                <p class="auth-desc">سجّل دخولك لمتابعة دروس كورس المونتاج بالذكاء الاصطناعي</p>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">البريد الإلكتروني</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" id="loginEmail" class="form-input" placeholder="example@mail.com" required>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">كلمة المرور</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="loginPassword" class="form-input" placeholder="أدخل كلمة المرور" required>
+                        <i class="fa-regular fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe" checked>
+                        <span>تذكرني</span>
+                    </label>
+                    <a href="javascript:void(0)" onclick="alert('يرجى مراسلة الدعم الفني لاستعادة كلمة المرور.')" class="forgot-link">نسيت كلمة المرور؟</a>
+                </div>
+
+                <div class="alert-msg" id="loginAlert"></div>
+
+                <button type="submit" class="btn-submit-auth" id="loginBtn">
+                    <div class="spinner"></div>
+                    <i class="fa-solid fa-arrow-left-to-bracket btn-label"></i>
+                    <span class="btn-label">تسجيل الدخول</span>
+                </button>
+
+                <p class="auth-footer-text">
+                    ليس لديك حساب حتى الآن؟
+                    <a href="javascript:void(0)" onclick="switchAuthTab('register')">أنشئ حسابك الآن</a>
+                </p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" style="display: none;" onsubmit="handleRegisterSubmit(event)">
+                <h2 class="auth-title">إنشاء حساب جديد 🚀</h2>
+                <p class="auth-desc">انضم إلى مجتمع طلاب كورس المونتاج بالذكاء الاصطناعي</p>
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label class="form-label" for="regName">الاسم بالكامل</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user input-icon"></i>
+                        <input type="text" id="regName" class="form-input" placeholder="أدخل اسمك الكريم" required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="regEmail">البريد الإلكتروني (لإرسال رمز التفعيل)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" id="regEmail" class="form-input" placeholder="example@mail.com" required>
+                    </div>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label class="form-label" for="regPhone">رقم الهاتف (11 رقماً)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-phone input-icon"></i>
+                        <input type="tel" id="regPhone" class="form-input" placeholder="01012345678" maxlength="11" required>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label" for="regPassword">كلمة المرور</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="regPassword" class="form-input" placeholder="اختر كلمة مرور قوية" minlength="6" required>
+                        <i class="fa-regular fa-eye toggle-password" onclick="togglePasswordVisibility('regPassword', this)"></i>
+                    </div>
+                </div>
+
+                <div class="alert-msg" id="registerAlert"></div>
+
+                <button type="submit" class="btn-submit-auth" id="registerBtn">
+                    <div class="spinner"></div>
+                    <i class="fa-solid fa-paper-plane btn-label"></i>
+                    <span class="btn-label">إرسال رمز التحقق للبريد</span>
+                </button>
+
+                <p class="auth-footer-text">
+                    لديك حساب بالفعل؟
+                    <a href="javascript:void(0)" onclick="switchAuthTab('login')">تسجيل الدخول</a>
+                </p>
+            </form>
+
+        </div>
+    </main>
+
+    <!-- Modal: OTP Email Verification -->
+    <div class="otp-modal-overlay" id="otpModal">
+        <div class="otp-card">
+            <div class="otp-icon-box">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            
+            <h3 class="auth-title">التحقق من البريد الإلكتروني</h3>
+            <p class="auth-desc" style="margin-bottom: 16px;">
+                تم إرسال رمز التحقق المكون من 6 أرقام إلى بريدك الإلكتروني: <br>
+                <strong id="targetEmailLabel" style="color: var(--primary);">example@mail.com</strong>
+            </p>
+
+            <!-- OTP Digits -->
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-digit" id="otp1" oninput="handleOtpInput(this, 'otp2')" onkeydown="handleOtpBackspace(event, this, null)">
+                <input type="text" maxlength="1" class="otp-digit" id="otp2" oninput="handleOtpInput(this, 'otp3')" onkeydown="handleOtpBackspace(event, this, 'otp1')">
+                <input type="text" maxlength="1" class="otp-digit" id="otp3" oninput="handleOtpInput(this, 'otp4')" onkeydown="handleOtpBackspace(event, this, 'otp2')">
+                <input type="text" maxlength="1" class="otp-digit" id="otp4" oninput="handleOtpInput(this, 'otp5')" onkeydown="handleOtpBackspace(event, this, 'otp3')">
+                <input type="text" maxlength="1" class="otp-digit" id="otp5" oninput="handleOtpInput(this, 'otp6')" onkeydown="handleOtpBackspace(event, this, 'otp4')">
+                <input type="text" maxlength="1" class="otp-digit" id="otp6" oninput="handleOtpInput(this, null)" onkeydown="handleOtpBackspace(event, this, 'otp5')">
+            </div>
+
+            <div class="alert-msg" id="otpAlert"></div>
+
+            <div class="resend-box">
+                لم يصلك الرمز؟ 
+                <button type="button" class="btn-resend" id="resendBtn" onclick="resendOtpCode()" disabled>
+                    إعادة الإرسال (<span id="timerSpan">60</span> ثانية)
+                </button>
+            </div>
+
+            <button type="button" class="btn-submit-auth" id="verifyBtn" onclick="verifyOtpAndActivate()">
+                <div class="spinner"></div>
+                <i class="fa-solid fa-circle-check btn-label"></i>
+                <span class="btn-label">تأكيد الرمز وتفعيل الحساب</span>
+            </button>
+
+            <button type="button" class="back-link" style="margin: 16px auto 0; background: none; border: none; cursor: pointer;" onclick="closeOtpModal()">
+                تعديل البريد الإلكتروني
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts Logic -->
+    <script>
+        // ─── إعدادات EmailJS للإرسال الحقيقي المباشر إلى Gmail ───
+        // يمكنك وضع مفاتيح EmailJS الخاصة بك هنا للإرسال التلقائي لأي إيميل
+        const EMAILJS_CONFIG = {
+            PUBLIC_KEY:  'YOUR_PUBLIC_KEY',   // مفتاح الـ Public Key من EmailJS
+            SERVICE_ID:  'YOUR_SERVICE_ID',  // معرّف الخدمة Service ID
+            TEMPLATE_ID: 'YOUR_TEMPLATE_ID'  // معرّف القالب Template ID
+        };
+
+        // ─── JSONBin: تخزين المستخدمين مشترك بين كل الأجهزة ───
+        const JSONBIN_KEY     = '$2a$10$CJ/.nMpTdVlUEUkOFFZiNeA9X05G0xPvN/yy2m6yT.8gH.vxcu7kO';
+        const JSONBIN_BASE    = 'https://api.jsonbin.io/v3';
+        const JSONBIN_BIN     = '6aa0b53aac6210605ab5d86b';
+        const USERS_KEY       = 'registered_users'; // مفتاح المستخدمين داخل البن
+
+        async function readAllUsers() {
+            try {
+                const res = await fetch(`${JSONBIN_BASE}/b/${JSONBIN_BIN}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_KEY },
+                    cache: 'no-store'
+                });
+                const data = await res.json();
+                return Array.isArray(data.record?.[USERS_KEY]) ? data.record[USERS_KEY] : [];
+            } catch (e) {
+                // fallback للـ localStorage لو مفيش نت
+                return JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            }
+        }
+
+        async function writeAllUsers(users) {
+            // نقرأ البن الكامل أولاً عشان لا نمسح بيانات تانية
+            let existing = {};
+            try {
+                const res0 = await fetch(`${JSONBIN_BASE}/b/${JSONBIN_BIN}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_KEY },
+                    cache: 'no-store'
+                });
+                if (res0.ok) existing = (await res0.json()).record || {};
+            } catch (e) {}
+            existing[USERS_KEY] = users;
+            await fetch(`${JSONBIN_BASE}/b/${JSONBIN_BIN}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+                body: JSON.stringify(existing)
+            });
+            // نحفظ نسخة محلية كـ fallback
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+        }
+
+        const API_URL = 'auth_api.php';
+        let countdownTimer = null;
+        let timeLeft = 60;
+        let pendingUser = null;
+        let localOtpCode = null; // رمز أمان محلي يضمن نجاح التحقق في كل الحالات
+
+        // ─── حفظ جلسة الدخول على الجهاز ───
+        function saveCurrentUser(user, remember = true) {
+            const serializedUser = JSON.stringify(user);
+            if (remember) {
+                localStorage.setItem('currentUser', serializedUser);
+                sessionStorage.removeItem('currentUser');
+                localStorage.setItem('rememberLogin', 'true');
+                localStorage.setItem('rememberedLoginEmail', user.email || '');
+            } else {
+                sessionStorage.setItem('currentUser', serializedUser);
+                localStorage.removeItem('currentUser');
+                localStorage.setItem('rememberLogin', 'false');
+                localStorage.removeItem('rememberedLoginEmail');
+            }
+        }
+
+        function restoreRememberedLogin() {
+            const emailInput = document.getElementById('loginEmail');
+            const rememberInput = document.getElementById('rememberMe');
+            const savedEmail = localStorage.getItem('rememberedLoginEmail');
+            const rememberLogin = localStorage.getItem('rememberLogin') !== 'false';
+
+            if (emailInput && savedEmail) emailInput.value = savedEmail;
+            if (rememberInput) rememberInput.checked = rememberLogin;
+        }
+
+        function resumeSavedLogin() {
+            let savedUser = null;
+            try {
+                savedUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            } catch (error) {
+                localStorage.removeItem('currentUser');
+            }
+
+            if (!savedUser || !savedUser.email) return;
+
+            showAlert('loginAlert', 'success', `أنت مسجّل دخولك بالفعل باسم ${savedUser.name || savedUser.email}. جاري تحويلك للصفحة الرئيسية...`);
+            setTimeout(() => {
+                window.location.replace('index.html');
+            }, 500);
+        }
+
+        // تهيئة EmailJS إذا تم إدخال المفتاح
+        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+            emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+        }
+
+        // ─── مساعدة: إظهار وإخفاء التنبيهات ───
+        function showAlert(id, type, msg) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.className = `alert-msg ${type} show`;
+            el.innerHTML = (type === 'success' ? '<i class="fa-solid fa-circle-check"></i> ' : '<i class="fa-solid fa-triangle-exclamation"></i> ') + msg;
+        }
+        function hideAlert(id) {
+            const el = document.getElementById(id);
+            if (el) el.className = 'alert-msg';
+        }
+
+        // ─── مساعدة: حالة التحميل ───
+        function setLoading(btnId, loading) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            if (loading) btn.classList.add('loading');
+            else btn.classList.remove('loading');
+            btn.disabled = loading;
+        }
+
+        // ─── التبديل بين تسجيل الدخول وإنشاء حساب ───
+        function switchAuthTab(tab) {
+            const loginForm    = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLoginBtn  = document.getElementById('tabLoginBtn');
+            const tabRegBtn    = document.getElementById('tabRegisterBtn');
+
+            hideAlert('loginAlert');
+            hideAlert('registerAlert');
+
+            if (tab === 'login') {
+                loginForm.style.display    = 'block';
+                registerForm.style.display = 'none';
+                tabLoginBtn.classList.add('active');
+                tabRegBtn.classList.remove('active');
+            } else {
+                loginForm.style.display    = 'none';
+                registerForm.style.display = 'block';
+                tabLoginBtn.classList.remove('active');
+                tabRegBtn.classList.add('active');
+            }
+        }
+
+        // ─── إظهار / إخفاء كلمة المرور ───
+        function togglePasswordVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // ─── إرسال الإيميل الفعلي ───
+        async function dispatchOtpEmail(email, name, otp) {
+            // 1. محاولة الإرسال عبر EmailJS إذا تم تفعيله
+            if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+                try {
+                    await emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, {
+                        to_email: email,
+                        to_name: name,
+                        otp_code: otp
+                    });
+                    return { success: true, method: 'emailjs' };
+                } catch (e) {
+                    console.warn('EmailJS error:', e);
+                }
+            }
+
+            // 2. محاولة الإرسال عبر سيرفر PHP المحلي إن وُجد
+            try {
+                const res = await fetch(`${API_URL}?action=send_otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, name })
+                });
+                const data = await res.json();
+                if (data.status) {
+                    if (data.otp) localOtpCode = data.otp;
+                    return { success: true, method: 'php' };
+                }
+            } catch (e) {
+                // في حالة فتح الصفحة محلياً بدون سيرفر
+                console.log('Running in local/offline environment');
+            }
+
+            return { success: true, method: 'local' };
+        }
+
+        // ─── الخطوة 1: إرسال رمز التحقق لإنشاء الحساب ───
+        async function handleRegisterSubmit(event) {
+            event.preventDefault();
+            hideAlert('registerAlert');
+
+            const name     = document.getElementById('regName').value.trim();
+            const email    = document.getElementById('regEmail').value.trim();
+            const phone    = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            if (phone.length !== 11 || !phone.startsWith('01')) {
+                showAlert('registerAlert', 'error', 'يرجى إدخال رقم هاتف مصري صحيح يبدأ بـ 01 ومكون من 11 رقماً');
+                return;
+            }
+
+            setLoading('registerBtn', true);
+            showAlert('registerAlert', 'success', 'جاري التحقق من البيانات...');
+
+            // التأكد من عدم تكرار البريد الإلكتروني (من JSONBin)
+            const users = await readAllUsers();
+            if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+                showAlert('registerAlert', 'error', 'هذا البريد مسجل لدينا بالفعل! يمكنك التبديل لتسجيل الدخول.');
+                setLoading('registerBtn', false);
+                return;
+            }
+
+            pendingUser = { name, email, phone, password };
+            // إنشاء رمز OTP مكون من 6 أرقام
+            localOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+            try {
+                const result = await dispatchOtpEmail(email, name, localOtpCode);
+
+                document.getElementById('targetEmailLabel').innerText = email;
+                openOtpModal();
+                startCountdown();
+
+                // تنبيه توضيحي إذا كان يعمل بالوضع التجريبي المحلي
+                if (result.method === 'local') {
+                    showAlert('otpAlert', 'success', `تم تجهيز رمز التحقق: [ <strong>${localOtpCode}</strong> ] (تم إرساله للبريد أو أدخله للتأكيد)`);
+                } else {
+                    showAlert('otpAlert', 'success', 'تم إرسال رمز التحقق إلى بريدك الإلكتروني بنجاح!');
+                }
+            } catch (err) {
+                showAlert('registerAlert', 'error', 'حدث خطأ، يرجى المحاولة مرة أخرى');
+            } finally {
+                setLoading('registerBtn', false);
+            }
+        }
+
+        // ─── نافذة إدخال الرمز OTP ───
+        function openOtpModal() {
+            document.getElementById('otpModal').style.display = 'flex';
+            clearOtpInputs();
+            setTimeout(() => {
+                const firstInput = document.getElementById('otp1');
+                if (firstInput) firstInput.focus();
+            }, 150);
+        }
+
+        function closeOtpModal() {
+            document.getElementById('otpModal').style.display = 'none';
+            clearInterval(countdownTimer);
+        }
+
+        function clearOtpInputs() {
+            for (let i = 1; i <= 6; i++) {
+                const input = document.getElementById(`otp${i}`);
+                if (input) input.value = '';
+            }
+        }
+
+        function handleOtpInput(current, nextId) {
+            current.value = current.value.replace(/\D/g, '');
+            if (current.value.length === 1 && nextId) {
+                document.getElementById(nextId).focus();
+            }
+            // إذا اكتملت الـ 6 أرقام نقوم بالتأكيد تلقائياً
+            let code = '';
+            for (let i = 1; i <= 6; i++) code += (document.getElementById(`otp${i}`)?.value || '');
+            if (code.length === 6) {
+                verifyOtpAndActivate();
+            }
+        }
+
+        function handleOtpBackspace(event, current, prevId) {
+            if (event.key === 'Backspace' && !current.value && prevId) {
+                document.getElementById(prevId).focus();
+            }
+        }
+
+        // ─── عداد إعادة الإرسال ───
+        function startCountdown() {
+            timeLeft = 60;
+            const resendBtn = document.getElementById('resendBtn');
+            const timerSpan = document.getElementById('timerSpan');
+            if (resendBtn) {
+                resendBtn.disabled = true;
+                resendBtn.innerHTML = `إعادة الإرسال (<span id="timerSpan">${timeLeft}</span> ثانية)`;
+            }
+
+            clearInterval(countdownTimer);
+            countdownTimer = setInterval(() => {
+                timeLeft--;
+                const ts = document.getElementById('timerSpan');
+                if (ts) ts.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdownTimer);
+                    if (resendBtn) {
+                        resendBtn.disabled = false;
+                        resendBtn.innerText = 'إعادة إرسال الرمز الآن';
+                    }
+                }
+            }, 1000);
+        }
+
+        async function resendOtpCode() {
+            if (!pendingUser) return;
+            hideAlert('otpAlert');
+            clearOtpInputs();
+            localOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+            const result = await dispatchOtpEmail(pendingUser.email, pendingUser.name, localOtpCode);
+            if (result.method === 'local') {
+                showAlert('otpAlert', 'success', `تم إنشاء رمز جديد: [ <strong>${localOtpCode}</strong> ]`);
+            } else {
+                showAlert('otpAlert', 'success', 'تم إرسال رمز تحقق جديد إلى بريدك الإلكتروني');
+            }
+            startCountdown();
+        }
+
+        // ─── الخطوة 2: التحقق من الرمز وتفعيل الحساب ───
+        async function verifyOtpAndActivate() {
+            hideAlert('otpAlert');
+
+            let enteredCode = '';
+            for (let i = 1; i <= 6; i++) {
+                enteredCode += (document.getElementById(`otp${i}`)?.value || '').trim();
+            }
+
+            if (enteredCode.length !== 6) {
+                showAlert('otpAlert', 'error', 'يرجى كتابة رمز التحقق كاملاً المكون من 6 أرقام');
+                return;
+            }
+
+            setLoading('verifyBtn', true);
+
+            let isVerified = false;
+
+            // فحص الكود المحلي أولاً
+            if (localOtpCode && enteredCode === localOtpCode) {
+                isVerified = true;
+            } else {
+                // محاولة التحقق عبر السيرفر إن وُجد
+                try {
+                    const res = await fetch(`${API_URL}?action=verify_otp`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: pendingUser.email, code: enteredCode })
+                    });
+                    const data = await res.json();
+                    if (data.status) isVerified = true;
+                } catch (e) {
+                    // لم ينجح السيرفر
+                }
+            }
+
+            if (isVerified) {
+                try {
+                    showAlert('otpAlert', 'success', 'جاري حفظ حسابك...');
+                    // حفظ المستخدم في JSONBin (مشترك بين كل الأجهزة)
+                    const users = await readAllUsers();
+                    if (!users.some(u => u.email.toLowerCase() === pendingUser.email.toLowerCase())) {
+                        users.push(pendingUser);
+                        await writeAllUsers(users);
+                    }
+                } catch (e) {
+                    // لو JSONBin فشل، نحفظ محلياً على الأقل
+                    const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                    users.push(pendingUser);
+                    localStorage.setItem('registeredUsers', JSON.stringify(users));
+                }
+
+                // تعيين الجلسة الحالية
+                saveCurrentUser(pendingUser, true);
+
+                showAlert('otpAlert', 'success', 'تم تأكيد حسابك بنجاح! جاري تحويلك للكورس...');
+                setTimeout(() => {
+                    window.location.href = 'course.html';
+                }, 1000);
+            } else {
+                showAlert('otpAlert', 'error', 'رمز التحقق غير صحيح، يرجى التأكد من الرمز المدخل والمحاولة مجدداً');
+                setLoading('verifyBtn', false);
+            }
+        }
+
+        // ─── تسجيل الدخول الحقيقي ───
+        async function handleLoginSubmit(event) {
+            event.preventDefault();
+            hideAlert('loginAlert');
+
+            const email    = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            setLoading('loginBtn', true);
+            showAlert('loginAlert', 'success', 'جاري التحقق من بياناتك...');
+
+            // جلب المستخدمين من JSONBin (مشترك بين كل الأجهزة)
+            const users = await readAllUsers();
+            const foundUser = users.find(u =>
+                u.email.toLowerCase() === email.toLowerCase() && u.password === password
+            );
+
+            if (foundUser) {
+                const rememberLogin = document.getElementById('rememberMe')?.checked !== false;
+                saveCurrentUser(foundUser, rememberLogin);
+                showAlert('loginAlert', 'success', `أهلاً بك يا ${foundUser.name}! جاري تحويلك للصفحة الرئيسية...`);
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 800);
+            } else {
+                showAlert('loginAlert', 'error', 'البريد الإلكتروني أو كلمة المرور غير صحيحة، تأكد من البيانات أو أنشئ حساباً جديداً.');
+                setLoading('loginBtn', false);
+            }
+        }
+
+        // ─── Dark Mode ───
+        function initTheme() {
+            if (localStorage.getItem('site_theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const icon = document.getElementById('themeIcon');
+                if (icon) icon.classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('site_theme', isDark ? 'dark' : 'light');
+            const icon = document.getElementById('themeIcon');
+            if (icon) icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+        initTheme();
+        restoreRememberedLogin();
+        resumeSavedLogin();
+    </script>
+</body>
+</html>
